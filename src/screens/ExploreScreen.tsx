@@ -443,6 +443,7 @@ function MapContent({
   cities,
   searchQuery,
   triggerSearch,
+  locationReady,
   moveToLocation,
   currentUserLocation,
   onShowShopDetail,
@@ -470,6 +471,7 @@ function MapContent({
   cities: any[],
   searchQuery: string,
   triggerSearch: number,
+  locationReady: boolean,
   moveToLocation?: { lat: number, lng: number } | null,
   currentUserLocation?: { lat: number, lng: number } | null,
   onShowShopDetail: (shop: any) => void,
@@ -616,15 +618,20 @@ function MapContent({
     
     setMapMoved(false);
     try {
+      // No typed query: list every cafe inside the visible map area.
+      // Typed query (shop name, street, town): bias towards the map centre instead.
+      const bounds = map.getBounds();
       const { places } = await placesLib.Place.searchByText({
         textQuery: query || 'coffee shop',
-        locationBias: map.getCenter(),
-        fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'formattedAddress', 'photos'],
+        includedType: 'cafe',
+        ...(!query && bounds ? { locationRestriction: bounds } : { locationBias: map.getCenter() }),
+        fields: ['id', 'displayName', 'location', 'rating', 'userRatingCount', 'formattedAddress', 'photos', 'regularOpeningHours'],
         maxResultCount: 20,
       });
       
       if (places) {
-        onSearch(places.map(p => ({
+        const openStates = await Promise.all(places.map(p => p.isOpen().catch(() => undefined)));
+        onSearch(places.map((p, i) => ({
           id: p.id,
           name: p.displayName,
           location: { lat: p.location?.lat(), lng: p.location?.lng() },
@@ -632,7 +639,9 @@ function MapContent({
           reviewCount: p.userRatingCount,
           address: p.formattedAddress,
           image: p.photos?.[0]?.getURI({ maxWidth: 400 }) || 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=400&auto=format&fit=crop',
-          status: 'Open Now'
+          // Real opening hours from Google; undefined means Google has none for this place
+          status: openStates[i] === undefined ? 'Hours unknown' : openStates[i] ? 'Open Now' : 'Closed',
+          fromGoogle: true
         })));
       }
     } catch (error) {
@@ -640,13 +649,18 @@ function MapContent({
     }
   }, [map, placesLib, onSearch]);
 
-  // Initial automatic load search when map and places library is loaded
+  // Initial automatic load: once the map is ready and the visitor's location is known (or refused)
   useEffect(() => {
-    if (map && placesLib && !initialFetchDone.current) {
+    if (map && placesLib && locationReady && !initialFetchDone.current) {
       initialFetchDone.current = true;
-      performSearch('coffee shop in Bishkek');
+      if (moveToLocation) {
+        map.setCenter(moveToLocation);
+        map.setZoom(15);
+      }
+      // Wait for the map to settle so the visible bounds match the new centre
+      google.maps.event.addListenerOnce(map, 'idle', () => performSearch(''));
     }
-  }, [map, placesLib, performSearch]);
+  }, [map, placesLib, locationReady, moveToLocation, performSearch]);
 
   // Listen for manual triggers from the search bar
   useEffect(() => {
@@ -1047,6 +1061,25 @@ export default function ExploreScreen() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuView, setMenuView] = useState<'main' | 'settings' | 'customizer'>('main');
   const [triggerSearch, setTriggerSearch] = useState(0);
+  const [locationReady, setLocationReady] = useState(false);
+
+  // On open, centre on the visitor (Bishkek, Kant, anywhere). Fall back to Bishkek if refused.
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setLocationReady(true);
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const coords = { lat: position.coords.latitude, lng: position.coords.longitude };
+        setCurrentUserLocation(coords);
+        setMoveToLocation(coords);
+        setLocationReady(true);
+      },
+      () => setLocationReady(true),
+      { enableHighAccuracy: false, timeout: 6000, maximumAge: 300000 }
+    );
+  }, []);
   const [moveToLocation, setMoveToLocation] = useState<{ lat: number, lng: number } | null>(null);
   const [currentUserLocation, setCurrentUserLocation] = useState<{ lat: number, lng: number } | null>(null);
   const [isLocating, setIsLocating] = useState(false);
@@ -1571,7 +1604,7 @@ export default function ExploreScreen() {
     if (cityParam === 'all') {
       return [];
     }
-    return cityParam ? cityParam.split(',').filter(Boolean) : ['Bishkek'];
+    return cityParam ? cityParam.split(',').filter(Boolean) : [];
   }, [searchParams]);
 
   const filterWifi = searchParams.get('wifi') === 'true';
@@ -1612,7 +1645,7 @@ export default function ExploreScreen() {
         : shop.status === 'Open Now';
       return { ...shop, isOpen };
     }).filter(shop => {
-      const matchSearch = shop.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      const matchSearch = shop.fromGoogle || shop.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (shop.address && shop.address.toLowerCase().includes(searchQuery.toLowerCase()));
       
       const matchCity = filterCities.length === 0 || filterCities.includes('All Cities') || 
@@ -1776,21 +1809,12 @@ export default function ExploreScreen() {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        let coords = {
+        const coords = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
         
-        // Check distance to Bishkek center to see if user is physically inside Bishkek
-        const bishkekCenter = { lat: 42.8755, lng: 74.5905 };
-        const distFromBishkek = getDistanceInKm(coords, bishkekCenter);
-        
-        if (distFromBishkek > 15) {
-          coords = bishkekCenter;
-          setAddNotification("Centered on Bishkek simulated location!");
-        } else {
-          setAddNotification("Location identified! Centered on your position.");
-        }
+        setAddNotification("Location identified! Centered on your position.");
         
         setCurrentUserLocation(coords);
         setMoveToLocation(coords);
@@ -1838,23 +1862,12 @@ export default function ExploreScreen() {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        let coords = {
+        const coords = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
         
-        // Check distance to Bishkek center to see if user is physically inside Bishkek
-        const bishkekCenter = { lat: 42.8755, lng: 74.5905 };
-        const distFromBishkek = getDistanceInKm(coords, bishkekCenter);
-        
-        // If the user's browser location is more than 15 km away, fall back to simulated center 
-        // to prevent all Bishkek coffee shops from being filtered out.
-        if (distFromBishkek > 15) {
-          coords = bishkekCenter;
-          setAddNotification("Using simulated location in Bishkek (since your real location is too far)!");
-        } else {
-          setAddNotification("Location identified! Showing shops within 2 km.");
-        }
+        setAddNotification("Location identified! Showing shops within 2 km.");
         
         setCurrentUserLocation(coords);
         setMoveToLocation(coords);
@@ -2537,6 +2550,7 @@ export default function ExploreScreen() {
             cities={CITIES}
             searchQuery={searchQuery}
             triggerSearch={triggerSearch}
+            locationReady={locationReady}
             moveToLocation={moveToLocation}
             currentUserLocation={currentUserLocation}
             onShowShopDetail={(shop) => {
