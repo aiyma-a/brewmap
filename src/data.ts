@@ -1,5 +1,7 @@
 export interface CoffeeShop {
   id: string;
+  /** Google Places ID: real photos are loaded from Google at runtime (never stored) */
+  placeId?: string;
   name: string;
   image: string;
   rating: number;
@@ -18,6 +20,7 @@ export interface CoffeeShop {
 export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '1',
+    placeId: 'ChIJiyzbTjG3njgRntyqzPogUJY',
     name: 'Bishkek Coffee Roasters',
     image: `${import.meta.env.BASE_URL}images/8279d3e8a6.jpg`,
     rating: 4.8,
@@ -34,6 +37,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   },
   {
     id: '2',
+    placeId: 'ChIJT3F9dCHInjgRBB8_T4bl3Zo',
     name: 'Sierra Coffee',
     image: `${import.meta.env.BASE_URL}images/3baea2be54.jpg`,
     rating: 4.6,
@@ -50,6 +54,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   },
   {
     id: '3',
+    placeId: 'ChIJyfj_Y7m3njgRSuCBGy1x_BU',
     name: 'Adriano Coffee',
     image: `${import.meta.env.BASE_URL}images/3baea2be54.jpg`,
     rating: 4.9,
@@ -66,6 +71,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   },
   {
     id: '4',
+    placeId: 'ChIJeYOqR863njgRoxlh-xX-5vA',
     name: 'Bellagio Coffee',
     image: `${import.meta.env.BASE_URL}images/44a9a055e1.jpg`,
     rating: 4.7,
@@ -82,6 +88,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   },
   {
     id: '5',
+    placeId: 'ChIJy83dKt-3njgRhqg_qkmD8qg',
     name: 'Bublik Coffee',
     image: `${import.meta.env.BASE_URL}images/0a0c589f82.jpg`,
     rating: 4.5,
@@ -114,6 +121,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   },
   {
     id: '7',
+    placeId: 'ChIJdY2Uydq3njgR7YpGcffWsI8',
     name: 'Navigator Coffee',
     image: `${import.meta.env.BASE_URL}images/9308a86d88.jpg`,
     rating: 4.7,
@@ -130,6 +138,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   },
   {
     id: '8',
+    placeId: 'ChIJwz2IoSfInjgRVRwnwVSPt7E',
     name: 'Vanilla Sky Coffee',
     image: `${import.meta.env.BASE_URL}images/7f569b76c9.jpg`,
     rating: 4.6,

@@ -1,4 +1,5 @@
 import { ArrowLeft, SlidersHorizontal, Search, Trash2, Wifi, Coffee, Zap, Heart, MapPin, Star } from 'lucide-react';
+import { ShopPhoto } from '../components/ShopPhoto';
 import { motion } from 'motion/react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -335,7 +336,7 @@ export default function FilterScreen() {
                 (showAllFavorites ? filteredFavorites : filteredFavorites.slice(0, 4)).map((shop) => (
                   <div key={shop.id} className="bg-surface border border-outline-variant/30 rounded-2xl p-3 flex items-center gap-4 transition-all hover:shadow-md">
                     <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
-                      <img src={shop.image} alt={shop.name} className="w-full h-full object-cover" />
+                      <ShopPhoto shop={shop} alt={shop.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-bold text-sm truncate">{shop.name}</h4>

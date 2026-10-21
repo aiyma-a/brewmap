@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { ShopPhoto } from '../../components/ShopPhoto';
 import { Coffee, X, MessageSquare, Star, Check, Mail, Send, MapPin } from 'lucide-react';
 
 export interface ShareShopModalProps {
@@ -60,8 +61,8 @@ export function ShareShopModal(props: ShareShopModalProps) {
                     {/* Coffee Shop Preview Card */}
                     <div className="bg-surface-container-low border border-outline-variant/20 rounded-2xl p-4 flex items-center gap-4 mb-6 shadow-sm">
                       <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-outline-variant/10 bg-surface-container-high">
-                        <img 
-                          src={shareShopData.image} 
+                        <ShopPhoto 
+                          shop={shareShopData} 
                           alt={shareShopData.name}
                           className="w-full h-full object-cover"
                           referrerPolicy="no-referrer"

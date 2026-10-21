@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { ShopPhoto } from '../../components/ShopPhoto';
 import { Navigation2, Coffee, X, Star } from 'lucide-react';
 import { getDistanceInKm } from '../../lib/geo';
 import { statusLabel } from '../../lib/shops';
@@ -98,8 +99,8 @@ export function ShopListSheet(props: ShopListSheetProps) {
                               className="bg-surface-container-low border border-outline-variant/20 rounded-2xl p-3.5 flex items-center gap-4 hover:bg-surface-container/80 transition-all shadow-sm group"
                             >
                               <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-outline-variant/10 bg-surface-container-high relative">
-                                <img 
-                                  src={shop.image} 
+                                <ShopPhoto 
+                                  shop={shop} 
                                   alt={shop.name}
                                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                   referrerPolicy="no-referrer"
