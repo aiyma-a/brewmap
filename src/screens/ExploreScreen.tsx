@@ -260,6 +260,9 @@ export default function ExploreScreen() {
     }
   }, [menuView, mapStyleId, showFriendsOnMap, showRadiusGuide, showShopNames, customRoadColor, customLandscapeColor, customParkColor, customWaterColor]);
 
+  // While the style sheet is open, the map shows the draft choices (live preview)
+  const previewingMapStyle = isMenuOpen && menuView === 'customizer';
+
   const handleSaveSettings = () => {
     setIsSaving(true);
     if (draftStyleId !== mapStyleId) {
@@ -1073,14 +1076,14 @@ export default function ExploreScreen() {
             pointedLocation={pointedLocation}
             pointedRadius={pointedRadius}
             onMapClick={handleMapClick}
-            mapStyleId={mapStyleId === 'auto' ? (themeMode === 'dark' ? 'roast' : 'oat') : mapStyleId}
-            customRoadColor={customRoadColor}
-            customLandscapeColor={customLandscapeColor}
-            customParkColor={customParkColor}
-            customWaterColor={customWaterColor}
+            mapStyleId={(() => { const id = previewingMapStyle ? draftStyleId : mapStyleId; return id === 'auto' ? (themeMode === 'dark' ? 'roast' : 'oat') : id; })()}
+            customRoadColor={previewingMapStyle ? draftRoadColor : customRoadColor}
+            customLandscapeColor={previewingMapStyle ? draftLandscapeColor : customLandscapeColor}
+            customParkColor={previewingMapStyle ? draftParkColor : customParkColor}
+            customWaterColor={previewingMapStyle ? draftWaterColor : customWaterColor}
             showFriendsOnMap={showFriendsOnMap}
-            showRadiusGuide={showRadiusGuide}
-            showShopNames={showShopNames}
+            showRadiusGuide={previewingMapStyle ? draftShowRadius : showRadiusGuide}
+            showShopNames={previewingMapStyle ? draftShowShopNames : showShopNames}
             onMapStyleChange={handleMapStyleChange}
             onToggleFriends={handleToggleFriendsOnMap}
             onToggleRadius={handleToggleRadiusGuide}
