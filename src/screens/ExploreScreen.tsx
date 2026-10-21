@@ -5,6 +5,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
 import { useEffect, useState, FormEvent, useMemo } from 'react';
 import { API_KEY, hasValidKey } from '../lib/mapsKey';
+import { signOutUser, useAuthUser } from '../lib/auth';
 import { MapContent } from '../components/MapContent';
 import { ProfileTab } from './explore/ProfileTab';
 import { MyReviewsModal } from './explore/MyReviewsModal';
@@ -24,6 +25,7 @@ import { translations, getLanguage, setLanguage, getThemeMode, setThemeMode, Lan
 export default function ExploreScreen() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { user: authUser } = useAuthUser();
   const [authError, setAuthError] = useState(false);
   const [showDebug, setShowDebug] = useState(false);
 
@@ -310,9 +312,9 @@ export default function ExploreScreen() {
 
   const [userProfile, setUserProfile] = useState(() => {
     let profile = {
-      name: 'Aydana Temirova',
-      username: 'aydana_brews',
-      bio: 'Specialty coffee connoisseur / Manual brew fanatic',
+      name: 'Guest',
+      username: 'guest',
+      bio: '',
       avatar: 'vector:Espresso',
       favoriteSpot: 'Bishkek Coffee Roasters',
       favoriteCoffeeType: 'Espresso'
@@ -521,11 +523,25 @@ export default function ExploreScreen() {
     localStorage.setItem('brewmap_user_profile', JSON.stringify(userProfile));
   }, [userProfile]);
 
+  // Signed in on a device without a saved profile: fill it from the account
+  useEffect(() => {
+    if (authUser && userProfile.name === 'Guest') {
+      const name = authUser.displayName || (authUser.email || '').split('@')[0] || 'Coffee fan';
+      setUserProfile(prev => ({ ...prev, name, username: name.replace(/\s+/g, '').toLowerCase() }));
+    }
+  }, [authUser]);
+
+  const handleSignOut = async () => {
+    try { await signOutUser(); } catch {}
+    localStorage.removeItem('brewmap_user_profile');
+    window.location.reload();
+  };
+
   const handleUpdateProfile = (e: FormEvent) => {
     e.preventDefault();
     const updated = {
-      name: editName.trim() || 'Aydana Temirova',
-      username: editUsername.trim().replace(/^@/, '') || 'aydana_brews',
+      name: editName.trim() || 'Guest',
+      username: editUsername.trim().replace(/^@/, '') || 'guest',
       bio: editBio.trim() || 'Specialty coffee connoisseur / Manual brew fanatic',
       avatar: editAvatar,
       favoriteSpot: editFavoriteSpot.trim() || 'Bishkek Coffee Roasters',
@@ -1230,6 +1246,8 @@ export default function ExploreScreen() {
 
           {/* Profile Tab Overlay Screen */}
           <ProfileTab
+          isSignedIn={Boolean(authUser)}
+          onSignOut={handleSignOut}
           activeSettingModal={activeSettingModal}
           activeTab={activeTab}
           bgLocationTracking={bgLocationTracking}

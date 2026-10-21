@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Mail, Lock, User, Coffee, Check, ChevronRight, HelpCircle, Sparkles } from 'lucide-react';
+import { authErrorMessage, sendPasswordReset, signInWithEmail, signInWithGoogle, signUpWithEmail, useAuthUser } from '../lib/auth';
+import { firebaseEnabled } from '../lib/firebase';
 
 const AVATAR_COLORS = [
   { name: 'Espresso', bg: 'bg-[#4B3621]', text: 'text-white' },
@@ -23,66 +25,80 @@ export default function AuthScreen() {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
-  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'info' } | null>(null);
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'info' | 'error' } | null>(null);
+  const { user } = useAuthUser();
 
-  // If already authorized, redirect immediately to explore screen
+  // Already signed in: go to the map
   useEffect(() => {
-    if (localStorage.getItem('brewmap_authorised') === 'true') {
-      navigate('/');
-    }
-  }, [navigate]);
+    if (user) navigate('/');
+  }, [user, navigate]);
 
-  const showNotification = (message: string, type: 'success' | 'info' = 'success') => {
+  const showNotification = (message: string, type: 'success' | 'info' | 'error' = 'success') => {
     setNotification({ message, type });
     setTimeout(() => {
       setNotification(null);
     }, 4000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  // Keep the existing profile screens in step with the signed-in account
+  const saveLocalProfile = (displayName: string | null, chosenUsername?: string) => {
+    let existing: any = {};
+    try { existing = JSON.parse(localStorage.getItem('brewmap_user_profile') || '{}') || {}; } catch {}
+    const name = displayName || existing.name || email.split('@')[0];
+    localStorage.setItem('brewmap_user_profile', JSON.stringify({
+      ...existing,
+      name,
+      username: chosenUsername || existing.username || name.replace(/\s+/g, '').toLowerCase(),
+      bio: existing.bio || '',
+      avatar: existing.avatar || `vector:${AVATAR_COLORS[selectedAvatar].name}`,
+    }));
+  };
 
-    if (mode === 'forgot') {
-      // Forgot password simulation
-      setTimeout(() => {
-        setIsLoading(false);
-        showNotification(`A password reset link has been dispatched to ${email}!`, 'success');
-        // Keep screen on forgot but clear field or switch back automatically after delay
-        setTimeout(() => {
-          setMode('login');
-          setPassword('');
-        }, 2000);
-      }, 1200);
+  const finish = (message: string) => {
+    showNotification(message, 'success');
+    setTimeout(() => navigate('/'), 1500);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isLoading) return;
+    if (mode === 'signup' && password.length < 8) {
+      showNotification(authErrorMessage({ code: 'auth/weak-password' }), 'error');
       return;
     }
-
-    // Login or Signup
-    setTimeout(() => {
-      setIsLoading(false);
-      
-      if (mode === 'signup') {
-        const chosenAvatar = `vector:${AVATAR_COLORS[selectedAvatar].name}`;
-        localStorage.setItem('brewmap_user_profile', JSON.stringify({
-          name: fullName || 'Aydana Temirova',
-          username: username.replace(/\s+/g, '').toLowerCase() || 'aydana_brews',
-          bio: 'Specialty coffee connoisseur / Manual brew fanatic',
-          avatar: chosenAvatar
-        }));
-        showNotification('Profile created successfully! Loading your coffee space...', 'success');
+    setIsLoading(true);
+    try {
+      if (mode === 'forgot') {
+        await sendPasswordReset(email.trim());
+        // Same message whether or not the email has an account (does not reveal who is registered)
+        showNotification('If an account exists for that email, a reset link is on its way.', 'success');
+        setTimeout(() => { setMode('login'); setPassword(''); }, 2500);
+      } else if (mode === 'signup') {
+        const created = await signUpWithEmail(email.trim(), password, fullName.trim());
+        saveLocalProfile(created.displayName, username.replace(/\s+/g, '').toLowerCase() || undefined);
+        finish('Account created! We sent a confirmation link to your email.');
       } else {
-        showNotification('Signed in successfully! Coffee map updated.', 'success');
+        const signedIn = await signInWithEmail(email.trim(), password);
+        saveLocalProfile(signedIn.displayName);
+        finish('Signed in!');
       }
+    } catch (err: any) {
+      showNotification(authErrorMessage(firebaseEnabled ? err : { code: 'not-configured' }), 'error');
+    }
+    setIsLoading(false);
+  };
 
-      // Authorise and update global app listeners
-      localStorage.setItem('brewmap_authorised', 'true');
-      window.dispatchEvent(new CustomEvent('auth_state_changed'));
-
-      setTimeout(() => {
-        navigate('/');
-      }, 8000); // Allow brief notification review, or user will auto-redirect
-      
-    }, 1200);
+  const handleGoogle = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const signedIn = await signInWithGoogle();
+      saveLocalProfile(signedIn.displayName);
+      finish('Signed in with Google!');
+    } catch (err: any) {
+      showNotification(authErrorMessage(firebaseEnabled ? err : { code: 'not-configured' }), 'error');
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -94,9 +110,12 @@ export default function AuthScreen() {
             initial={{ opacity: 0, y: -40 }}
             animate={{ opacity: 1, y: 16 }}
             exit={{ opacity: 0, y: -40 }}
+            role={notification.type === 'error' ? 'alert' : 'status'}
             className={`fixed top-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md z-50 p-4 rounded-2xl shadow-xl flex items-center gap-3 border ${
               notification.type === 'success' 
                 ? 'bg-[#EAF5EC] border-[#A8D3B2] text-[#1E4D2B]' 
+                : notification.type === 'error'
+                ? 'bg-[#FDECEA] border-[#E7A9A3] text-[#7A1F17]'
                 : 'bg-primary/5 border-outline-variant text-brand'
             }`}
           >
@@ -113,12 +132,7 @@ export default function AuthScreen() {
       {/* Header */}
       <header className="px-4 sm:px-6 py-5 grid grid-cols-[1fr_auto_1fr] items-center gap-2 relative border-b border-brand/5 bg-white/70 backdrop-blur-md z-10">
         <button 
-          onClick={() => {
-            // Let them browse anonymously or go back if already logged in
-            localStorage.setItem('brewmap_authorised', 'true');
-            window.dispatchEvent(new CustomEvent('auth_state_changed'));
-            navigate('/');
-          }}
+          onClick={() => navigate('/')}
           className="justify-self-start text-primary hover:bg-primary/5 px-2 sm:px-3 py-1.5 rounded-full transition-colors active:scale-95 text-xs font-bold font-mono text-brand"
         >
           Skip
@@ -230,7 +244,7 @@ export default function AuthScreen() {
                     type="text" 
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Full Name (e.g., Aydana Temirova)"
+                    placeholder="Full name"
                     className="w-full pl-11 pr-4 py-3.5 bg-[#FAF8F5] border border-brand/10 rounded-2xl text-xs focus:ring-1 focus:ring-brand focus:border-brand transition-all outline-none font-medium"
                   />
                 </div>
@@ -308,6 +322,23 @@ export default function AuthScreen() {
               )}
             </button>
           </form>
+
+          {mode !== 'forgot' && (
+            <div className="mt-4">
+              <div className="flex items-center gap-3 text-[10px] text-brand/50 uppercase tracking-wider mb-3">
+                <span className="flex-1 h-px bg-brand/10" /> or <span className="flex-1 h-px bg-brand/10" />
+              </div>
+              <button
+                type="button"
+                onClick={handleGoogle}
+                disabled={isLoading}
+                className="w-full min-h-[44px] bg-white text-brand py-3 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 border border-brand/20 hover:bg-brand/5 active:scale-[0.99] transition-all disabled:opacity-60"
+              >
+                <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.5 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7-10.1 7-17.6z"/><path fill="#FBBC05" d="M10.5 28.7a14.5 14.5 0 010-9.4l-7.9-6.1a24 24 0 000 21.6l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.3 0-11.6-4-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
+                Continue with Google
+              </button>
+            </div>
+          )}
 
           {/* Quick Info text / Switching options */}
           <div className="mt-6 text-center">

@@ -92,8 +92,8 @@ export default function DetailScreen() {
 
   const [userProfile] = useState(() => {
     let profile = {
-      name: 'Aydana Temirova',
-      username: 'aydana_brews',
+      name: 'Guest',
+      username: 'guest',
       bio: 'Specialty coffee connoisseur / Manual brew fanatic',
       avatar: 'vector:Espresso'
     };

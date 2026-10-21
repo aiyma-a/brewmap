@@ -137,8 +137,8 @@ export default function BrewlogScreen() {
   const [userProfile, setUserProfile] = useState(() => {
     const saved = localStorage.getItem('brewmap_user_profile');
     return saved ? JSON.parse(saved) : { 
-      name: 'Aydana Temirova', 
-      username: 'aydana_brews', 
+      name: 'Guest', 
+      username: 'guest', 
       avatar: 'vector:Espresso', 
       bio: 'Specialty coffee connoisseur / Manual brew fanatic',
       favoriteSpot: 'Bishkek Coffee Roasters',
