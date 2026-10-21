@@ -205,3 +205,18 @@ input[type="range"]::-moz-range-thumb:hover {
   transform: scale(1.2);
   background: #5c4033;
 }
+
+/* Accessibility: always show where keyboard focus is, and respect "reduce motion" */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

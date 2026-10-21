@@ -274,7 +274,7 @@ export default function FilterScreen() {
 
               <div className="flex items-center justify-between text-[11px] bg-surface-container-low p-2 rounded-xl border border-outline-variant/10 mb-3">
                 <span className="font-medium text-on-surface-variant">Tap center on map:</span>
-                <span className="font-mono text-[9.5px] font-bold text-[#a55e2b] bg-[#a55e2b]/10 px-1.5 py-0.5 rounded-md">
+                <span className="font-mono text-[10px] font-bold text-[#a55e2b] bg-[#a55e2b]/10 px-1.5 py-0.5 rounded-md">
                   {parseFloat(plat).toFixed(4)}, {parseFloat(plng).toFixed(4)}
                 </span>
               </div>

@@ -211,7 +211,7 @@ export default function AuthScreen() {
                         <div className={`w-9 h-9 rounded-full ${avatar.bg} ${avatar.text} flex items-center justify-center shadow-sm transition-transform ${selectedAvatar === idx ? 'scale-105' : ''}`}>
                           <Coffee size={18} fill="currentColor" />
                         </div>
-                        <span className="text-[9px] font-bold text-brand/85">{avatar.name}</span>
+                        <span className="text-[10px] font-bold text-brand/85">{avatar.name}</span>
                         {selectedAvatar === idx && (
                           <div className="absolute top-1 right-1 bg-brand text-white rounded-full p-0.5 shadow-md">
                             <Check size={6} strokeWidth={4} />
@@ -349,7 +349,7 @@ export default function AuthScreen() {
             )}
           </div>
 
-          <p className="mt-8 text-center text-[9px] text-brand/50">
+          <p className="mt-8 text-center text-[10px] text-brand/50">
             By continuing, you agree to Brewmap's{' '}
             <a href={`${import.meta.env.BASE_URL}terms.html`} target="_blank" rel="noopener" className="underline hover:text-brand">Terms of Service</a>
             {' '}and{' '}

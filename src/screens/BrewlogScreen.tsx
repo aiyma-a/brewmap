@@ -377,13 +377,13 @@ export default function BrewlogScreen() {
                       <div className="grid grid-cols-2 gap-1 bg-surface-container rounded-xl p-0.5 border border-outline-variant/15">
                         <button
                           onClick={() => handleThemeChange('light')}
-                          className={`py-1 rounded-lg text-[9px] font-bold transition-all ${themeMode === 'light' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
+                          className={`py-1 rounded-lg text-[10px] font-bold transition-all ${themeMode === 'light' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
                         >
                           Light
                         </button>
                         <button
                           onClick={() => handleThemeChange('dark')}
-                          className={`py-1 rounded-lg text-[9px] font-bold transition-all ${themeMode === 'dark' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
+                          className={`py-1 rounded-lg text-[10px] font-bold transition-all ${themeMode === 'dark' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
                         >
                           Dark
                         </button>
@@ -399,19 +399,19 @@ export default function BrewlogScreen() {
                       <div className="grid grid-cols-3 gap-1 bg-surface-container rounded-xl p-0.5 border border-outline-variant/15">
                         <button
                           onClick={() => handleLanguageChange('en')}
-                          className={`py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'en' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
+                          className={`py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'en' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
                         >
                           EN
                         </button>
                         <button
                           onClick={() => handleLanguageChange('ru')}
-                          className={`py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'ru' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
+                          className={`py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'ru' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
                         >
                           РУ
                         </button>
                         <button
                           onClick={() => handleLanguageChange('ky')}
-                          className={`py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'ky' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
+                          className={`py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'ky' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
                         >
                           КЫР
                         </button>
@@ -424,6 +424,9 @@ export default function BrewlogScreen() {
                       <button
                         type="button"
                         onClick={toggleBackgroundTracking}
+                              role="switch"
+                              aria-checked={bgLocationTracking}
+                              aria-label={t.backgroundTracking}
                         className={`w-8 h-4.5 rounded-full p-0.5 flex-shrink-0 transition-colors duration-200 outline-none ${bgLocationTracking ? 'bg-open' : 'bg-outline-variant'}`}
                       >
                         <div className={`bg-white w-3.5 h-3.5 rounded-full shadow-sm transform duration-200 ${bgLocationTracking ? 'translate-x-3.5' : 'translate-x-0'}`} />
@@ -433,7 +436,7 @@ export default function BrewlogScreen() {
                     {/* Info Banner */}
                     <div className="bg-surface-container p-2.5 rounded-xl border border-outline-variant/15 flex items-start gap-2 shadow-soft text-left">
                       <Info size={14} className="text-primary mt-0.5 flex-shrink-0" />
-                      <p className="text-[9px] text-on-surface-variant leading-relaxed">
+                      <p className="text-[10px] text-on-surface-variant leading-relaxed">
                         Adjusting settings will instantly update all screens in real-time.
                       </p>
                     </div>
@@ -722,7 +725,7 @@ export default function BrewlogScreen() {
                         </button>
                       ))}
                     </div>
-                    <span className="text-[9px] font-extrabold text-brand bg-brand/10 px-2.5 py-0.5 rounded-full font-mono tracking-wider uppercase mt-2">
+                    <span className="text-[10px] font-extrabold text-brand bg-brand/10 px-2.5 py-0.5 rounded-full font-mono tracking-wider uppercase mt-2">
                        {getRatingLabel(newReviewRating)} ({newReviewRating.toFixed(1)})
                     </span>
                   </div>
@@ -889,13 +892,13 @@ export default function BrewlogScreen() {
                   <div className="flex items-center gap-0.5 bg-surface rounded-xl p-0.5 border border-outline-variant/20">
                     <button
                       onClick={() => handleThemeChange('light')}
-                      className={`px-2.5 py-1 rounded-lg text-[9px] font-bold transition-all ${themeMode === 'light' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
+                      className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${themeMode === 'light' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                     >
                       {t.modeLight ? t.modeLight.split(' ')[0] : 'Light'}
                     </button>
                     <button
                       onClick={() => handleThemeChange('dark')}
-                      className={`px-2.5 py-1 rounded-lg text-[9px] font-bold transition-all ${themeMode === 'dark' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
+                      className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${themeMode === 'dark' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                     >
                       {t.modeDark ? t.modeDark.split(' ')[0] : 'Dark'}
                     </button>
@@ -910,19 +913,19 @@ export default function BrewlogScreen() {
                   <div className="flex items-center gap-0.5 bg-surface rounded-xl p-0.5 border border-outline-variant/20">
                     <button
                       onClick={() => handleLanguageChange('en')}
-                      className={`px-2 py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'en' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
+                      className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'en' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                     >
                       EN
                     </button>
                     <button
                       onClick={() => handleLanguageChange('ru')}
-                      className={`px-2 py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'ru' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
+                      className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'ru' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                     >
                       РУ
                     </button>
                     <button
                       onClick={() => handleLanguageChange('ky')}
-                      className={`px-2 py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'ky' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
+                      className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'ky' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                     >
                       КЫР
                     </button>

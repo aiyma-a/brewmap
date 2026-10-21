@@ -446,7 +446,7 @@ export function MapContent({
                   >
                     <p className="text-[10px] font-bold text-primary whitespace-nowrap">{shop.name}</p>
                     {shop.rating && (
-                      <p className="text-[8px] text-on-surface-variant text-center">⭐ {shop.rating}</p>
+                      <p className="text-[10px] text-on-surface-variant text-center">⭐ {shop.rating}</p>
                     )}
                   </motion.div>
                 )}
@@ -465,7 +465,7 @@ export function MapContent({
             >
               <div className="relative flex flex-col items-center group cursor-pointer">
                 {renderFriendAvatarOnMap(friend.image, friend.name)}
-                <div className="bg-secondary text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded-md shadow-md mt-1 scale-90 opacity-90 group-hover:scale-100 group-hover:opacity-100 transition-all border border-white whitespace-nowrap z-30">
+                <div className="bg-secondary text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-md shadow-md mt-1 scale-90 opacity-90 group-hover:scale-100 group-hover:opacity-100 transition-all border border-white whitespace-nowrap z-30">
                   {friend.name}
                 </div>
               </div>

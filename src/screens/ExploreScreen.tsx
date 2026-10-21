@@ -1087,13 +1087,13 @@ export default function ExploreScreen() {
                             <div className="grid grid-cols-2 gap-1 bg-surface-container rounded-xl p-0.5 border border-outline-variant/15">
                               <button
                                 onClick={() => handleThemeChange('light')}
-                                className={`py-1 rounded-lg text-[9px] font-bold transition-all ${themeMode === 'light' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
+                                className={`py-1 rounded-lg text-[10px] font-bold transition-all ${themeMode === 'light' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
                               >
                                 Light
                               </button>
                               <button
                                 onClick={() => handleThemeChange('dark')}
-                                className={`py-1 rounded-lg text-[9px] font-bold transition-all ${themeMode === 'dark' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
+                                className={`py-1 rounded-lg text-[10px] font-bold transition-all ${themeMode === 'dark' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
                               >
                                 Dark
                               </button>
@@ -1109,19 +1109,19 @@ export default function ExploreScreen() {
                             <div className="grid grid-cols-3 gap-1 bg-surface-container rounded-xl p-0.5 border border-outline-variant/15">
                               <button
                                 onClick={() => handleLanguageChange('en')}
-                                className={`py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'en' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
+                                className={`py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'en' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
                               >
                                 EN
                               </button>
                               <button
                                 onClick={() => handleLanguageChange('ru')}
-                                className={`py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'ru' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
+                                className={`py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'ru' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
                               >
                                 РУ
                               </button>
                               <button
                                 onClick={() => handleLanguageChange('ky')}
-                                className={`py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'ky' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
+                                className={`py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'ky' ? 'bg-secondary text-white shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high/40'}`}
                               >
                                 КЫР
                               </button>
@@ -1134,6 +1134,9 @@ export default function ExploreScreen() {
                             <button
                               type="button"
                               onClick={toggleBackgroundTracking}
+                              role="switch"
+                              aria-checked={bgLocationTracking}
+                              aria-label={t.backgroundTracking}
                               className={`w-8 h-4.5 rounded-full p-0.5 flex-shrink-0 transition-colors duration-200 outline-none ${bgLocationTracking ? 'bg-open' : 'bg-outline-variant'}`}
                             >
                               <div className={`bg-white w-3.5 h-3.5 rounded-full shadow-sm transform duration-200 ${bgLocationTracking ? 'translate-x-3.5' : 'translate-x-0'}`} />
@@ -1186,9 +1189,9 @@ export default function ExploreScreen() {
                                 >
                                   <div className={`w-full h-4 rounded-md mb-1.5 border flex items-center gap-1 px-1 justify-between ${style.colorBg}`}>
                                     <div className={`w-1.5 h-1.5 rounded-full ${style.indicator}`} />
-                                    <span className={`text-[7.5px] font-mono tracking-tighter opacity-70 ${style.text}`}>Aa</span>
+                                    <span className={`text-[10px] font-mono tracking-tighter opacity-70 ${style.text}`}>Aa</span>
                                   </div>
-                                  <span className="text-[9.5px] font-bold text-on-surface truncate leading-none">{style.name}</span>
+                                  <span className="text-[10px] font-bold text-on-surface truncate leading-none">{style.name}</span>
                                 </button>
                               ))}
                             </div>
@@ -1234,7 +1237,7 @@ export default function ExploreScreen() {
                                         <div className="flex-1" style={{ backgroundColor: blend.waterColor }} />
                                       </div>
 
-                                      <span className="text-[9px] font-semibold text-on-surface truncate pr-2 leading-none">{blend.name}</span>
+                                      <span className="text-[10px] font-semibold text-on-surface truncate pr-2 leading-none">{blend.name}</span>
                                     </div>
                                   );
                                 })}
@@ -1251,7 +1254,7 @@ export default function ExploreScreen() {
 
                               {/* Road Colors */}
                               <div className="space-y-1">
-                                <span className="text-[9px] font-bold text-on-surface-variant uppercase tracking-wider">Road Color</span>
+                                <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Road Color</span>
                                 <div className="flex flex-wrap gap-1.5">
                                   {[
                                     { value: '#7a5a4a', label: 'Chestnut Cacao' },
@@ -1270,7 +1273,7 @@ export default function ExploreScreen() {
                                     <button
                                       key={choice.value}
                                       onClick={() => setDraftRoadColor(choice.value)}
-                                      className={`flex items-center gap-1 px-1.5 py-1 text-[8.5px] font-bold rounded-lg border transition-all cursor-pointer ${
+                                      className={`flex items-center gap-1 px-1.5 py-1 text-[10px] font-bold rounded-lg border transition-all cursor-pointer ${
                                         draftRoadColor === choice.value
                                           ? 'border-primary ring-1 ring-primary/45 bg-surface text-on-surface'
                                           : 'border-outline-variant/30 hover:border-outline-variant/75 bg-surface/30 text-on-surface-variant'
@@ -1285,7 +1288,7 @@ export default function ExploreScreen() {
 
                               {/* Landscape Color */}
                               <div className="space-y-1">
-                                <span className="text-[9px] font-bold text-on-surface-variant uppercase tracking-wider">General Landscape / Terrain</span>
+                                <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">General Landscape / Terrain</span>
                                 <div className="flex flex-wrap gap-1.5">
                                   {[
                                     { value: '#faf8f5', label: 'Milk Latte' },
@@ -1307,7 +1310,7 @@ export default function ExploreScreen() {
                                     <button
                                       key={choice.value}
                                       onClick={() => setDraftLandscapeColor(choice.value)}
-                                      className={`flex items-center gap-1 px-1.5 py-1 text-[8.5px] font-bold rounded-lg border transition-all cursor-pointer ${
+                                      className={`flex items-center gap-1 px-1.5 py-1 text-[10px] font-bold rounded-lg border transition-all cursor-pointer ${
                                         draftLandscapeColor === choice.value
                                           ? 'border-primary ring-1 ring-primary/45 bg-surface text-on-surface'
                                           : 'border-outline-variant/30 hover:border-outline-variant/75 bg-surface/30 text-on-surface-variant'
@@ -1322,7 +1325,7 @@ export default function ExploreScreen() {
 
                               {/* Parks (Natural) Color */}
                               <div className="space-y-1">
-                                <span className="text-[9px] font-bold text-on-surface-variant uppercase tracking-wider">Parks & Greenery</span>
+                                <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Parks & Greenery</span>
                                 <div className="flex flex-wrap gap-1.5">
                                   {[
                                     { value: '#d2e5ca', label: 'Matcha Sage' },
@@ -1339,7 +1342,7 @@ export default function ExploreScreen() {
                                     <button
                                       key={choice.value}
                                       onClick={() => setDraftParkColor(choice.value)}
-                                      className={`flex items-center gap-1 px-1.5 py-1 text-[8.5px] font-bold rounded-lg border transition-all cursor-pointer ${
+                                      className={`flex items-center gap-1 px-1.5 py-1 text-[10px] font-bold rounded-lg border transition-all cursor-pointer ${
                                         draftParkColor === choice.value
                                           ? 'border-primary ring-1 ring-primary/45 bg-surface text-on-surface'
                                           : 'border-outline-variant/30 hover:border-outline-variant/75 bg-surface/30 text-on-surface-variant'
@@ -1354,7 +1357,7 @@ export default function ExploreScreen() {
 
                               {/* Water Color */}
                               <div className="space-y-1">
-                                <span className="text-[9px] font-bold text-on-surface-variant uppercase tracking-wider">Water & Rivers</span>
+                                <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Water & Rivers</span>
                                 <div className="flex flex-wrap gap-1.5">
                                   {[
                                     { value: '#cedad6', label: 'Teal Mist' },
@@ -1371,7 +1374,7 @@ export default function ExploreScreen() {
                                     <button
                                       key={choice.value}
                                       onClick={() => setDraftWaterColor(choice.value)}
-                                      className={`flex items-center gap-1 px-1.5 py-1 text-[8.5px] font-bold rounded-lg border transition-all cursor-pointer ${
+                                      className={`flex items-center gap-1 px-1.5 py-1 text-[10px] font-bold rounded-lg border transition-all cursor-pointer ${
                                         draftWaterColor === choice.value
                                           ? 'border-primary ring-1 ring-primary/45 bg-surface text-on-surface'
                                           : 'border-outline-variant/30 hover:border-outline-variant/75 bg-surface/30 text-on-surface-variant'
@@ -1390,14 +1393,14 @@ export default function ExploreScreen() {
                                   <button
                                     type="button"
                                     onClick={() => setShowSaveBlendForm(true)}
-                                    className="w-full flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-xl text-[9px] font-bold text-primary hover:bg-primary/10 border border-dashed border-primary/40 bg-primary/5 transition-all active:scale-[0.98] cursor-pointer"
+                                    className="w-full flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-xl text-[10px] font-bold text-primary hover:bg-primary/10 border border-dashed border-primary/40 bg-primary/5 transition-all active:scale-[0.98] cursor-pointer"
                                   >
                                     <PenLine size={11} className="shrink-0 text-primary" />
                                     <span>Save Current Colors as Blend 💾</span>
                                   </button>
                                 ) : (
                                   <form onSubmit={handleCreateNewBlend} className="space-y-2 p-2 bg-surface/80 backdrop-blur-sm rounded-xl border border-outline-variant/30 text-left">
-                                    <span className="text-[8.5px] font-bold text-on-surface-variant uppercase tracking-wider block">Blend Name</span>
+                                    <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider block">Blend Name</span>
                                     <div className="flex gap-1.5">
                                       <input
                                         type="text"
@@ -1409,7 +1412,7 @@ export default function ExploreScreen() {
                                       />
                                       <button
                                         type="submit"
-                                        className="px-2.5 py-1 bg-primary text-white text-[9.5px] font-bold rounded-lg cursor-pointer"
+                                        className="px-2.5 py-1 bg-primary text-white text-[10px] font-bold rounded-lg cursor-pointer"
                                       >
                                         Save
                                       </button>
@@ -1419,7 +1422,7 @@ export default function ExploreScreen() {
                                           setShowSaveBlendForm(false);
                                           setNewBlendName('');
                                         }}
-                                        className="px-2.5 py-1 bg-surface-container-high text-on-surface-variant text-[9.5px] font-medium rounded-lg hover:bg-surface-container-highest transition-colors cursor-pointer"
+                                        className="px-2.5 py-1 bg-surface-container-high text-on-surface-variant text-[10px] font-medium rounded-lg hover:bg-surface-container-highest transition-colors cursor-pointer"
                                       >
                                         Cancel
                                       </button>
@@ -1560,6 +1563,7 @@ export default function ExploreScreen() {
           {activeTab === 'explore' && (
             <button 
               onClick={handleGPSLocate}
+              aria-label="Show my location"
               disabled={isLocating}
               className="absolute bottom-[112px] right-4 md:right-6 z-40 bg-primary text-white p-3 rounded-xl shadow-md active:scale-95 transition-all duration-200 disabled:opacity-85 flex items-center justify-center"
             >
@@ -1661,7 +1665,7 @@ export default function ExploreScreen() {
                                   </div>
 
                                   {/* Open badge */}
-                                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md ${
+                                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
                                     isOpen ? 'bg-secondary text-white' : 'bg-surface-container text-on-surface-variant/40'
                                   }`}>
                                     {statusLabel(isOpen, shop.status, 'Open Now')}
@@ -1669,7 +1673,7 @@ export default function ExploreScreen() {
 
                                   {/* Distance text */}
                                   {distanceText && (
-                                    <span className="text-[9.5px] font-bold text-[#a55e2b] font-mono leading-none bg-[#a55e2b]/10 px-1.5 py-0.5 rounded-md shrink-0">
+                                    <span className="text-[10px] font-bold text-[#a55e2b] font-mono leading-none bg-[#a55e2b]/10 px-1.5 py-0.5 rounded-md shrink-0">
                                       {distanceText}
                                     </span>
                                   )}
@@ -1772,7 +1776,7 @@ export default function ExploreScreen() {
                               initial={{ scale: 0 }}
                               animate={{ scale: 1 }}
                               exit={{ scale: 0 }}
-                              className="absolute -top-1 -right-1 bg-brand text-white font-extrabold text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center border border-white shadow-md"
+                              className="absolute -top-1 -right-1 bg-brand text-white font-extrabold text-[10px] w-4.5 h-4.5 rounded-full flex items-center justify-center border border-white shadow-md"
                             >
                               {activeFiltersCount}
                             </motion.span>
@@ -1896,7 +1900,7 @@ export default function ExploreScreen() {
                             <Wifi size={13} />
                             <div className="leading-none">
                               <p className="text-[10.5px]">High-speed Wi-Fi</p>
-                              <p className="text-[8.5px] opacity-75 mt-0.5">{filterWifi ? 'Active' : 'Any Internet'}</p>
+                              <p className="text-[10px] opacity-75 mt-0.5">{filterWifi ? 'Active' : 'Any Internet'}</p>
                             </div>
                           </button>
 
@@ -1921,7 +1925,7 @@ export default function ExploreScreen() {
                             <Coffee size={13} />
                             <div className="leading-none">
                               <p className="text-[10.5px]">Power Outlets</p>
-                              <p className="text-[8.5px] opacity-75 mt-0.5">{filterOutlets ? 'Available' : 'Any seats'}</p>
+                              <p className="text-[10px] opacity-75 mt-0.5">{filterOutlets ? 'Available' : 'Any seats'}</p>
                             </div>
                           </button>
                         </div>
@@ -2343,7 +2347,7 @@ export default function ExploreScreen() {
                                 <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-3 border border-primary/10 flex flex-col gap-1.5 shadow-sm">
                                   <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-1.5">
-                                      <span className="text-[9px] font-extrabold text-[#a55e2b] bg-[#a55e2b]/10 px-1.5 py-0.5 rounded-md tracking-wider font-mono">
+                                      <span className="text-[10px] font-extrabold text-[#a55e2b] bg-[#a55e2b]/10 px-1.5 py-0.5 rounded-md tracking-wider font-mono">
                                         MY REVIEW ({getRatingLabel(userReview.rating)})
                                       </span>
                                       <div className="flex gap-0.5">
@@ -2703,7 +2707,7 @@ export default function ExploreScreen() {
                     <div className="grid grid-cols-2 gap-2 shrink-0">
                       <div className="bg-surface-container/40 p-2 rounded-2xl border border-outline-variant/5 flex flex-col items-center justify-center text-center">
                         <Wifi size={14} className="text-primary mb-1" />
-                        <span className="text-[9px] font-bold text-on-surface-variant block truncate w-full">WiFi</span>
+                        <span className="text-[10px] font-bold text-on-surface-variant block truncate w-full">WiFi</span>
                         <span className={`text-[10px] font-black truncate w-full ${
                           selectedShopDetail.wifi && selectedShopDetail.wifi.toLowerCase() !== 'none' && selectedShopDetail.wifi.toLowerCase() !== 'unavailable'
                             ? 'text-emerald-600' 
@@ -2716,7 +2720,7 @@ export default function ExploreScreen() {
                       </div>
                       <div className="bg-surface-container/40 p-2 rounded-2xl border border-outline-variant/5 flex flex-col items-center justify-center text-center">
                         <Compass size={14} className="text-primary mb-1" />
-                        <span className="text-[9px] font-bold text-on-surface-variant block truncate w-full">Power Plugs</span>
+                        <span className="text-[10px] font-bold text-on-surface-variant block truncate w-full">Power Plugs</span>
                         <span className="text-[10px] font-black text-on-surface truncate w-full">{selectedShopDetail.outlets ? 'Available' : 'None'}</span>
                       </div>
                     </div>
@@ -2746,7 +2750,7 @@ export default function ExploreScreen() {
                           <div className="bg-surface-container/40 p-3 rounded-2xl border border-outline-variant/5 flex items-center justify-between gap-3">
                             <div className="min-w-0">
                               <p className="text-[10.5px] font-bold text-on-surface truncate">{selectedShopDetail.address || 'Bishkek specialty location'}</p>
-                              <p className="text-[9px] text-on-surface-variant font-mono mt-0.5">{selectedShopDetail.location.lat.toFixed(4)}°, {selectedShopDetail.location.lng.toFixed(4)}°</p>
+                              <p className="text-[10px] text-on-surface-variant font-mono mt-0.5">{selectedShopDetail.location.lat.toFixed(4)}°, {selectedShopDetail.location.lng.toFixed(4)}°</p>
                             </div>
                             <button
                               onClick={() => {
@@ -2804,7 +2808,7 @@ export default function ExploreScreen() {
                                             }
                                             setIsEditingInlineExplore(false);
                                           }}
-                                          className="bg-outline-variant/10 text-on-surface-variant text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:bg-outline-variant/25 transition-all cursor-pointer"
+                                          className="bg-outline-variant/10 text-on-surface-variant text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:bg-outline-variant/25 transition-all cursor-pointer"
                                         >
                                           Cancel
                                         </button>
@@ -2830,7 +2834,7 @@ export default function ExploreScreen() {
                                             setTimeout(() => setAddNotification(null), 2500);
                                             setIsEditingInlineExplore(false);
                                           }}
-                                          className="bg-[#a55e2b] text-white text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:brightness-110 shadow-sm transition-all cursor-pointer"
+                                          className="bg-[#a55e2b] text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:brightness-110 shadow-sm transition-all cursor-pointer"
                                         >
                                           Save
                                         </button>
@@ -2849,14 +2853,14 @@ export default function ExploreScreen() {
                                             }
                                             setIsEditingInlineExplore(true);
                                           }}
-                                          className="bg-primary/5 text-primary text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:bg-primary/15 transition-all cursor-pointer flex items-center gap-1"
+                                          className="bg-primary/5 text-primary text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:bg-primary/15 transition-all cursor-pointer flex items-center gap-1"
                                         >
                                           <PenLine size={9} />
                                           {userReviewForThisShop ? 'Edit' : 'Write'}
                                         </button>
                                         {userReviewForThisShop && (
                                           <>
-                                            <span className="text-outline-variant/30 text-[9px]">|</span>
+                                            <span className="text-outline-variant/30 text-[10px]">|</span>
                                             <button 
                                               type="button"
                                               onClick={() => {
@@ -2864,7 +2868,7 @@ export default function ExploreScreen() {
                                                 setAddNotification("Review deleted!");
                                                 setTimeout(() => setAddNotification(null), 2500);
                                               }}
-                                              className="text-error/80 hover:text-error text-[9px] font-extrabold uppercase tracking-wider font-mono hover:underline cursor-pointer"
+                                              className="text-error/80 hover:text-error text-[10px] font-extrabold uppercase tracking-wider font-mono hover:underline cursor-pointer"
                                             >
                                               Delete
                                             </button>
@@ -2962,11 +2966,11 @@ export default function ExploreScreen() {
                                             );
                                           })}
                                         </div>
-                                        <span className="text-[9px] font-extrabold text-brand bg-brand/10 px-1.5 py-0.5 rounded font-mono tracking-wider uppercase ml-1.5">
+                                        <span className="text-[10px] font-extrabold text-brand bg-brand/10 px-1.5 py-0.5 rounded font-mono tracking-wider uppercase ml-1.5">
                                           {getRatingLabel(userReviewForThisShop.rating)} ({userReviewForThisShop.rating.toFixed(1)})
                                         </span>
                                       </div>
-                                      <span className="text-[9px] text-on-surface-variant font-medium">{userReviewForThisShop.time}</span>
+                                      <span className="text-[10px] text-on-surface-variant font-medium">{userReviewForThisShop.time}</span>
                                     </div>
                                     <p className="text-[11px] text-on-surface-variant leading-relaxed italic animate-fade-in">
                                       "{userReviewForThisShop.comment}"
@@ -2975,7 +2979,7 @@ export default function ExploreScreen() {
                                 ) : (
                                   <div className="text-center py-4 px-2 bg-surface/30 rounded-xl border border-dashed border-outline-variant/20">
                                     <p className="text-[10px] font-bold text-on-surface-variant/75 font-sans">You haven't reviewed this coffee spot yet.</p>
-                                    <p className="text-[9px] text-on-surface-variant/50 mt-0.5 mb-2 font-sans">Share your drip notes, wifi speed, and cozy vibes with the circle.</p>
+                                    <p className="text-[10px] text-on-surface-variant/50 mt-0.5 mb-2 font-sans">Share your drip notes, wifi speed, and cozy vibes with the circle.</p>
                                     <button
                                       type="button"
                                       onClick={() => {
@@ -2983,7 +2987,7 @@ export default function ExploreScreen() {
                                         setInlineCommentExplore('');
                                         setIsEditingInlineExplore(true);
                                       }}
-                                      className="inline-flex items-center gap-1 px-3 py-1 bg-[#a55e2b]/10 text-[#a55e2b] rounded-lg text-[9px] font-extrabold uppercase tracking-wider font-mono hover:bg-[#a55e2b]/20 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer"
+                                      className="inline-flex items-center gap-1 px-3 py-1 bg-[#a55e2b]/10 text-[#a55e2b] rounded-lg text-[10px] font-extrabold uppercase tracking-wider font-mono hover:bg-[#a55e2b]/20 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer"
                                     >
                                       <PenLine size={9} />
                                       Write / Edit Review
@@ -3002,7 +3006,7 @@ export default function ExploreScreen() {
                                   <div className="text-center py-6 px-3 bg-surface-container/30 rounded-2xl border border-dashed border-outline-variant/10">
                                     <Coffee className="mx-auto text-on-surface-variant/30 mb-2" size={24} />
                                     <p className="text-[10px] font-bold text-on-surface-variant/80">No other customer reviews yet</p>
-                                    <p className="text-[9px] text-on-surface-variant/60 mt-0.5">Be the first of your circle to rate your sip here!</p>
+                                    <p className="text-[10px] text-on-surface-variant/60 mt-0.5">Be the first of your circle to rate your sip here!</p>
                                   </div>
                                 );
                               }
@@ -3017,7 +3021,7 @@ export default function ExploreScreen() {
                                         <p className="text-[10px] font-bold text-on-surface leading-tight">
                                           {review.user || 'Coffee Lover'} ({getRatingLabel(review.rating)})
                                         </p>
-                                        <p className="text-[8px] text-on-surface-variant/60 mt-0.5">{review.time || 'Reviewed'}</p>
+                                        <p className="text-[10px] text-on-surface-variant/60 mt-0.5">{review.time || 'Reviewed'}</p>
                                       </div>
                                     </div>
                                     <div className="flex gap-0.5">
@@ -3451,7 +3455,7 @@ export default function ExploreScreen() {
                             <div className="flex justify-between items-start gap-2 mb-2">
                               <div className="min-w-0 flex-1">
                                 <h4 className="font-headline font-bold text-xs text-primary hover:underline line-clamp-1">{review.shopName}</h4>
-                                <span className="text-[9px] text-on-surface-variant/60 font-mono">{review.time || 'Reviewed'}</span>
+                                <span className="text-[10px] text-on-surface-variant/60 font-mono">{review.time || 'Reviewed'}</span>
                               </div>
                               <div className="bg-secondary/10 px-2.5 py-0.5 rounded-full flex items-center gap-1 shrink-0">
                                 <Star size={9} className="fill-secondary text-secondary" />
@@ -3494,7 +3498,7 @@ export default function ExploreScreen() {
                       <div className="text-left space-y-3">
                         <div>
                           <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1 font-mono">Coffee Mug Avatar</label>
-                          <p className="text-[9px] text-brand mb-2 font-medium">☕ Choose your mug logo. Personal picture uploads are disabled.</p>
+                          <p className="text-[10px] text-brand mb-2 font-medium">☕ Choose your mug logo. Personal picture uploads are disabled.</p>
                         </div>
 
                         {/* Coloured Mug Logos Section */}
@@ -3517,7 +3521,7 @@ export default function ExploreScreen() {
                                   <div className={`w-10 h-10 rounded-full ${option.bg} ${option.text} flex items-center justify-center shadow-md`}>
                                     <Coffee size={20} fill="currentColor" />
                                   </div>
-                                  <span className="text-[8px] font-bold text-center mt-1.5 truncate w-full text-on-surface-variant">{option.name}</span>
+                                  <span className="text-[10px] font-bold text-center mt-1.5 truncate w-full text-on-surface-variant">{option.name}</span>
                                   {isSelected && (
                                     <div className="absolute top-1 right-1 bg-primary text-on-primary rounded-full p-0.5 shadow-sm z-10">
                                       <Check size={8} className="stroke-[3]" />
@@ -3569,7 +3573,7 @@ export default function ExploreScreen() {
                           className="w-full bg-surface p-3 rounded-xl border border-outline-variant/30 text-xs focus:ring-1 focus:ring-primary focus:outline-none min-h-[60px] leading-relaxed"
                           placeholder="A short description about your brewing love..."
                         />
-                        <p className="text-[9px] text-on-surface-variant/60 text-right mt-1 font-mono">{editBio.length}/120 characters</p>
+                        <p className="text-[10px] text-on-surface-variant/60 text-right mt-1 font-mono">{editBio.length}/120 characters</p>
                       </div>
 
                       {/* Favorite Coffee Spot (Brew Spot) */}
@@ -3693,7 +3697,7 @@ export default function ExploreScreen() {
                           }`}
                         >
                           <p className="text-lg font-headline font-black text-primary">{visitedList.length}</p>
-                          <p className="text-[9px] uppercase tracking-wider font-bold text-on-surface-variant/80">{t.visitedSpots}</p>
+                          <p className="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant/80">{t.visitedSpots}</p>
                         </button>
                         <button
                           type="button"
@@ -3705,7 +3709,7 @@ export default function ExploreScreen() {
                           }`}
                         >
                           <p className="text-lg font-headline font-black text-primary">{friendsList.length}</p>
-                          <p className="text-[9px] uppercase tracking-wider font-bold text-on-surface-variant/80">{t.connections}</p>
+                          <p className="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant/80">{t.connections}</p>
                         </button>
                         <button
                           type="button"
@@ -3713,7 +3717,7 @@ export default function ExploreScreen() {
                           className="bg-surface-container/60 p-3 rounded-2xl text-center border border-outline-variant/10 hover:bg-surface-container-high hover:border-outline-variant transition-all cursor-pointer shadow-sm active:scale-95 w-full block"
                         >
                           <p className="text-lg font-headline font-black text-primary">{reviewsList.length}</p>
-                          <p className="text-[9px] uppercase tracking-wider font-bold text-on-surface-variant/80">{t.reviews}</p>
+                          <p className="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant/80">{t.reviews}</p>
                         </button>
                       </div>
 
@@ -3786,18 +3790,18 @@ export default function ExploreScreen() {
                                               <h6 className="text-xs font-black font-headline text-on-surface leading-tight truncate hover:text-brand transition-colors">
                                                 {shop.name}
                                               </h6>
-                                              <span className="flex-shrink-0 text-[8.5px] text-emerald-600 dark:text-emerald-450 bg-emerald-500/10 px-1.5 py-0.5 rounded-md font-bold flex items-center gap-0.5 uppercase tracking-wide">
+                                              <span className="flex-shrink-0 text-[10px] text-emerald-600 dark:text-emerald-450 bg-emerald-500/10 px-1.5 py-0.5 rounded-md font-bold flex items-center gap-0.5 uppercase tracking-wide">
                                                 <Check size={9} className="stroke-[3]" /> Visited
                                               </span>
                                             </div>
                                             <p className="text-[10px] text-on-surface-variant truncate mt-0.5 font-sans">{shop.address || 'Specialty Cafe'}</p>
                                             <div className="flex items-center gap-2 mt-1">
-                                              <span className={`text-[8.5px] font-bold px-1.5 py-0.5 rounded-full ${isOpen ? 'text-secondary bg-secondary/5' : 'text-on-surface-variant/40 bg-on-surface-variant/5'}`}>
+                                              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${isOpen ? 'text-secondary bg-secondary/5' : 'text-on-surface-variant/40 bg-on-surface-variant/5'}`}>
                                                 {statusLabel(isOpen, shop.status, 'Open Now')}
                                               </span>
-                                              <span className="text-[9px] font-bold text-primary flex items-center gap-0.5 font-sans">
+                                              <span className="text-[10px] font-bold text-primary flex items-center gap-0.5 font-sans">
                                                 <span>{shop.rating}</span>
-                                                <span className="text-[8px]">⭐</span>
+                                                <span className="text-[10px]">⭐</span>
                                               </span>
                                             </div>
                                           </div>
@@ -3834,7 +3838,7 @@ export default function ExploreScreen() {
                                               <div className="p-3.5 space-y-3 text-left">
                                                 {/* About Text */}
                                                 <div>
-                                                  <p className="text-[8px] uppercase font-bold text-on-surface-variant/70 tracking-wider mb-1 font-headline">Atmosphere & Specialty</p>
+                                                  <p className="text-[10px] uppercase font-bold text-on-surface-variant/70 tracking-wider mb-1 font-headline">Atmosphere & Specialty</p>
                                                   <p className="text-[11px] text-on-surface-variant/90 leading-relaxed font-sans italic">
                                                     "{shop.about || 'A highly recommended specialty coffee spot offering premium single-origin pour-overs and meticulous custom espresso profiles in a wonderful atmosphere.'}"
                                                   </p>
@@ -3843,11 +3847,11 @@ export default function ExploreScreen() {
                                                 {/* Amenities quick-glance */}
                                                 <div className="grid grid-cols-2 gap-2 bg-surface-container-low/40 p-2 rounded-xl border border-outline-variant/5">
                                                   <div className="text-left">
-                                                    <span className="text-[8px] font-bold text-on-surface-variant/60 block uppercase">Wifi Setup</span>
+                                                    <span className="text-[10px] font-bold text-on-surface-variant/60 block uppercase">Wifi Setup</span>
                                                     <span className="text-[11px] font-bold text-on-surface font-sans">{shop.wifi || 'Free Connection'}</span>
                                                   </div>
                                                   <div className="text-left">
-                                                    <span className="text-[8px] font-bold text-on-surface-variant/60 block uppercase">Power Outlets</span>
+                                                    <span className="text-[10px] font-bold text-on-surface-variant/60 block uppercase">Power Outlets</span>
                                                     <span className="text-[11px] font-bold text-on-surface font-sans">{shop.outlets ? 'Available 🔌' : 'Limited out'}</span>
                                                   </div>
                                                 </div>
@@ -3931,7 +3935,7 @@ export default function ExploreScreen() {
                                         </div>
                                         <div className="flex-1 min-w-0">
                                           <h6 className="text-[11.5px] font-black text-on-surface leading-snug truncate">{friend.name}</h6>
-                                          <p className="text-[9.5px] text-on-surface-variant truncate">@{originalUser?.username || friend.name.toLowerCase()}</p>
+                                          <p className="text-[10px] text-on-surface-variant truncate">@{originalUser?.username || friend.name.toLowerCase()}</p>
                                         </div>
                                         <div className="flex gap-1.5 flex-shrink-0">
                                           <button
@@ -4028,13 +4032,13 @@ export default function ExploreScreen() {
                             <div className="flex items-center gap-0.5 bg-surface rounded-xl p-0.5 border border-outline-variant/20">
                               <button
                                 onClick={() => handleThemeChange('light')}
-                                className={`px-2.5 py-1 rounded-lg text-[9px] font-bold transition-all ${themeMode === 'light' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
+                                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${themeMode === 'light' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                               >
                                 {t.modeLight ? t.modeLight.split(' ')[0] : 'Light'}
                               </button>
                               <button
                                 onClick={() => handleThemeChange('dark')}
-                                className={`px-2.5 py-1 rounded-lg text-[9px] font-bold transition-all ${themeMode === 'dark' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
+                                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${themeMode === 'dark' ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                               >
                                 {t.modeDark ? t.modeDark.split(' ')[0] : 'Dark'}
                               </button>
@@ -4049,19 +4053,19 @@ export default function ExploreScreen() {
                             <div className="flex items-center gap-0.5 bg-surface rounded-xl p-0.5 border border-outline-variant/20">
                               <button
                                 onClick={() => handleLanguageChange('en')}
-                                className={`px-2 py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'en' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
+                                className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'en' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                               >
                                 EN
                               </button>
                               <button
                                 onClick={() => handleLanguageChange('ru')}
-                                className={`px-2 py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'ru' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
+                                className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'ru' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                               >
                                 РУ
                               </button>
                               <button
                                 onClick={() => handleLanguageChange('ky')}
-                                className={`px-2 py-1 rounded-lg text-[9px] font-bold transition-all ${language === 'ky' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
+                                className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-all ${language === 'ky' ? 'bg-secondary text-white' : 'text-on-surface-variant hover:bg-surface-container-high'}`}
                               >
                                 КЫР
                               </button>
@@ -4080,6 +4084,9 @@ export default function ExploreScreen() {
                             <button
                               type="button"
                               onClick={toggleBackgroundTracking}
+                              role="switch"
+                              aria-checked={bgLocationTracking}
+                              aria-label={t.backgroundTracking}
                               className={`w-9 h-5 rounded-full p-0.5 transition-colors duration-200 outline-none ${bgLocationTracking ? 'bg-open' : 'bg-outline-variant'}`}
                             >
                               <div className={`bg-white w-4 h-4 rounded-full shadow-sm transform duration-200 ${bgLocationTracking ? 'translate-x-4' : 'translate-x-0'}`} />
@@ -4220,7 +4227,7 @@ export default function ExploreScreen() {
                             </p>
 
                             <div className="space-y-1">
-                              <label className="block text-[9px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">Current Password</label>
+                              <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">Current Password</label>
                               <div className="relative">
                                 <input
                                   type={showPwdCurrent ? "text" : "password"}
@@ -4241,7 +4248,7 @@ export default function ExploreScreen() {
                             </div>
 
                             <div className="space-y-1">
-                              <label className="block text-[9px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">New Password</label>
+                              <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">New Password</label>
                               <div className="relative">
                                 <input
                                   type={showPwdNew ? "text" : "password"}
@@ -4262,7 +4269,7 @@ export default function ExploreScreen() {
                             </div>
 
                             <div className="space-y-1">
-                              <label className="block text-[9px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">Confirm New Password</label>
+                              <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">Confirm New Password</label>
                               <input
                                 type="password"
                                 required
@@ -4303,7 +4310,7 @@ export default function ExploreScreen() {
                             </p>
 
                             <div className="space-y-1">
-                              <label className="block text-[9px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">Current Email Address</label>
+                              <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">Current Email Address</label>
                               <input
                                 type="email"
                                 required
@@ -4315,7 +4322,7 @@ export default function ExploreScreen() {
                             </div>
 
                             <div className="space-y-1">
-                              <label className="block text-[9px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">New Email Address</label>
+                              <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">New Email Address</label>
                               <input
                                 type="email"
                                 required
@@ -4480,7 +4487,7 @@ export default function ExploreScreen() {
                                     setContactSent(false);
                                     setActiveSettingModal(null);
                                   }}
-                                  className="mt-2.5 px-3 py-1 bg-emerald-600 text-white rounded-lg font-bold text-[9px]"
+                                  className="mt-2.5 px-3 py-1 bg-emerald-600 text-white rounded-lg font-bold text-[10px]"
                                 >
                                   OK
                                 </button>
@@ -4494,7 +4501,7 @@ export default function ExploreScreen() {
                                 className="space-y-2.5 text-left text-xs"
                               >
                                 <div>
-                                  <label className="block text-[9px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5 font-mono">Name</label>
+                                  <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5 font-mono">Name</label>
                                   <input
                                     type="text"
                                     required
@@ -4505,7 +4512,7 @@ export default function ExploreScreen() {
                                   />
                                 </div>
                                 <div>
-                                  <label className="block text-[9px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5 font-mono">Email</label>
+                                  <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5 font-mono">Email</label>
                                   <input
                                     type="email"
                                     required
@@ -4516,7 +4523,7 @@ export default function ExploreScreen() {
                                   />
                                 </div>
                                 <div>
-                                  <label className="block text-[9px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5 font-mono">Inquiry</label>
+                                  <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5 font-mono">Inquiry</label>
                                   <textarea
                                     required
                                     value={contactMessage}
