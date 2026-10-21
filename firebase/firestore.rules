@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Self-reported "how busy is it?" for a coffee shop.
+    // Anyone may read; a signed-in (anonymous) visitor may add ONE report per shop per hour.
+    match /busyReports/{reportId} {
+      allow get: if true;
+      allow list: if request.query.limit <= 50;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['shopId', 'level', 'ts', 'uid'])
+        && request.resource.data.shopId is string
+        && request.resource.data.shopId.size() > 0
+        && request.resource.data.shopId.size() <= 200
+        && request.resource.data.level in [1, 2, 3]
+        && request.resource.data.ts == request.time
+        && request.resource.data.uid == request.auth.uid
+        && reportId == request.auth.uid + '_' + request.resource.data.shopId + '_' + string(int(request.time.toMillis() / 3600000));
+      allow update, delete: if false;
+    }
+  }
+}

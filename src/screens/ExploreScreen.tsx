@@ -8,6 +8,7 @@ import { getDistanceInKm } from '../lib/geo';
 import { getRatingLabel, renderInteractiveStars } from '../lib/rating';
 import { API_KEY, hasValidKey } from '../lib/mapsKey';
 import { MapContent } from '../components/MapContent';
+import { BusyReport } from '../components/BusyReport';
 import { SEARCHABLE_USERS, CUSTOM_VECTOR_AVATARS } from '../lib/sampleUsers';
 import { statusLabel, filterShops } from '../lib/shops';
 import { translations, getLanguage, setLanguage, getThemeMode, setThemeMode, Language } from '../lib/i18n';
@@ -2670,6 +2671,9 @@ export default function ExploreScreen() {
                       )}
                     </div>
 
+                    {/* Self-reported crowd level */}
+                    <BusyReport shopId={String(selectedShopDetail.id)} />
+
                     {/* Visited Status Indicator Card */}
                     {(() => {
                       const isVisited = visitedList.some(v => v.id === selectedShopDetail.id);
@@ -4394,7 +4398,7 @@ export default function ExploreScreen() {
                             </div>
                             <div className="max-h-[40vh] overflow-y-auto pr-1 text-[10px] text-on-surface-variant space-y-2 leading-relaxed font-sans bg-surface-container p-3 rounded-xl">
                               <p className="font-bold">Last updated: 21 October 2026</p>
-                              <p>Your profile, saved shops and reviews stay in this browser and are not sent to us. Location is used only to centre the map and show distances. Map and shop data come from Google. We use no ads or tracking.</p>
+                              <p>Your profile, saved shops and reviews stay in this browser. If you report how busy a shop is, that report (shop, answer, time, anonymous ID) is stored in Google Firebase and shown to everyone. Location is used only to centre the map and show distances. Map and shop data come from Google. We use no ads or tracking.</p>
                             </div>
                             <a href={`${import.meta.env.BASE_URL}privacy.html`} target="_blank" rel="noopener" className="block text-center text-xs font-bold text-brand underline">Read the full Privacy Policy</a>
                             <button
