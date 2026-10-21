@@ -15,6 +15,10 @@ const getRatingLabel = (val: number): string => {
   return "Ristretto";
 };
 
+// Open/Closed text; Google places without opening hours say so instead of "Closed"
+const statusLabel = (isOpen: boolean, status: string | undefined, openText: string) =>
+  isOpen ? openText : status === 'Hours unknown' ? 'Hours unknown' : 'Closed';
+
 const getDistanceInKm = (loc1: { lat: number; lng: number }, loc2: { lat: number; lng: number }) => {
   const p = 0.017453292519943295; // Math.PI / 180
   const c = Math.cos;
@@ -2702,7 +2706,7 @@ export default function ExploreScreen() {
                                   <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md ${
                                     isOpen ? 'bg-secondary text-white' : 'bg-surface-container text-on-surface-variant/40'
                                   }`}>
-                                    {isOpen ? 'Open Now' : 'Closed'}
+                                    {statusLabel(isOpen, shop.status, 'Open Now')}
                                   </span>
 
                                   {/* Distance text */}
@@ -3035,7 +3039,7 @@ export default function ExploreScreen() {
                               
                               return (
                                 <span className={`text-[10px] font-medium ${isOpen ? 'text-secondary' : 'text-on-surface-variant/40'}`}>
-                                  {isOpen ? 'Open' : 'Closed'}
+                                  {statusLabel(isOpen, shop.status, 'Open')}
                                 </span>
                               );
                             })()}
@@ -3346,7 +3350,7 @@ export default function ExploreScreen() {
                                 </div>
                                 <div className="flex items-center justify-between mt-1">
                                   <span className={`text-[10px] font-bold ${isOpen ? 'text-secondary bg-secondary/5 px-2 py-0.5 rounded-full' : 'text-on-surface-variant/40 bg-on-surface-variant/5 px-2 py-0.5 rounded-full'}`}>
-                                    {isOpen ? 'Open now' : 'Closed'}
+                                    {statusLabel(isOpen, shop.status, 'Open now')}
                                   </span>
                                   <div className="flex items-center gap-1.5">
                                     <div className="flex items-center gap-0.5 text-xs font-bold text-primary">
@@ -3485,7 +3489,7 @@ export default function ExploreScreen() {
                                   </div>
                                   <div className="flex items-center justify-between mt-1">
                                     <span className={`text-[10px] font-bold ${isOpen ? 'text-secondary bg-secondary/5 px-2 py-0.5 rounded-full' : 'text-on-surface-variant/40 bg-on-surface-variant/5 px-2 py-0.5 rounded-full'}`}>
-                                      {isOpen ? 'Open now' : 'Closed'}
+                                      {statusLabel(isOpen, shop.status, 'Open now')}
                                     </span>
                                     <div className="flex items-center gap-1.5">
                                       <div className="flex items-center gap-0.5 text-xs font-bold text-primary">
@@ -3689,7 +3693,7 @@ export default function ExploreScreen() {
                                 ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-500/5 border-emerald-500/10' 
                                 : 'text-on-surface-variant/40 bg-on-surface-variant/5 border-outline-variant/10'
                             }`}>
-                              {isOpen ? 'Open Now' : 'Closed'}
+                              {statusLabel(isOpen, selectedShopDetail.status, 'Open Now')}
                             </span>
                           );
                         })()}
@@ -4831,7 +4835,7 @@ export default function ExploreScreen() {
                                             <p className="text-[10px] text-on-surface-variant truncate mt-0.5 font-sans">{shop.address || 'Specialty Cafe'}</p>
                                             <div className="flex items-center gap-2 mt-1">
                                               <span className={`text-[8.5px] font-bold px-1.5 py-0.5 rounded-full ${isOpen ? 'text-secondary bg-secondary/5' : 'text-on-surface-variant/40 bg-on-surface-variant/5'}`}>
-                                                {isOpen ? 'Open Now' : 'Closed'}
+                                                {statusLabel(isOpen, shop.status, 'Open Now')}
                                               </span>
                                               <span className="text-[9px] font-bold text-primary flex items-center gap-0.5 font-sans">
                                                 <span>{shop.rating}</span>
