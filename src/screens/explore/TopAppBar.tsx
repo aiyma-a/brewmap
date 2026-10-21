@@ -168,6 +168,12 @@ export function TopAppBar(props: TopAppBarProps) {
                               <p className="text-[10px] text-on-surface-variant">Language, theme & options</p>
                             </div>
                           </button>
+
+                          <div className="flex items-center justify-center gap-3 pt-2 text-[11px] text-on-surface-variant">
+                            <a href={`${import.meta.env.BASE_URL}privacy.html`} target="_blank" rel="noopener" className="underline hover:text-brand">{t.privacyPolicy}</a>
+                            <span aria-hidden="true">·</span>
+                            <a href={`${import.meta.env.BASE_URL}terms.html`} target="_blank" rel="noopener" className="underline hover:text-brand">{t.termsOfService}</a>
+                          </div>
                         </div>
                       )}
 
