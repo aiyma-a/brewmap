@@ -362,7 +362,7 @@ export default function ExploreScreen() {
   const [editFavoriteCoffeeType, setEditFavoriteCoffeeType] = useState(userProfile.favoriteCoffeeType || 'Espresso');
 
   const [friendsList, setFriendsList] = useState<FriendMarker[]>(() => {
-    const saved = localStorage.getItem('brewmap_friends');
+    const saved = localStorage.getItem('brewmap_friends_v2');
     return saved ? JSON.parse(saved) : FRIENDS;
   });
   const [favoritesList, setFavoritesList] = useState<any[]>(() => {
@@ -503,7 +503,7 @@ export default function ExploreScreen() {
   }, [selectedShopDetail?.id]);
 
   useEffect(() => {
-    localStorage.setItem('brewmap_friends', JSON.stringify(friendsList));
+    localStorage.setItem('brewmap_friends_v2', JSON.stringify(friendsList));
   }, [friendsList]);
 
   useEffect(() => {
@@ -2103,7 +2103,7 @@ export default function ExploreScreen() {
                     <Search size={20} className="text-on-surface-variant/70 flex-shrink-0" />
                     <input
                       className="flex-1 bg-transparent border-none focus:ring-0 text-sm placeholder:text-on-surface-variant/50 outline-none font-sans"
-                      placeholder="Search username (e.g., meerim_coffee)..."
+                      placeholder="Search username..."
                       type="text"
                       value={friendSearchQuery}
                       onChange={(e) => setFriendSearchQuery(e.target.value)}
@@ -2158,7 +2158,7 @@ export default function ExploreScreen() {
                         <div className="text-center p-6 bg-surface-container/30 rounded-2xl border border-dashed border-outline-variant/50">
                           <p className="text-xs font-bold text-on-surface-variant mb-1">No user found</p>
                           <p className="text-[11px] text-on-surface-variant/70">
-                            Try searching for <span className="font-mono text-primary font-bold">meerim_coffee</span>, <span className="font-mono text-primary font-bold">erkin_roaster</span>, or <span className="font-mono text-primary font-bold">begaim_latte</span>.
+                            Finding friends will be available when accounts launch.
                           </p>
                         </div>
                       )}
@@ -2250,7 +2250,7 @@ export default function ExploreScreen() {
                         <Users size={32} className="text-on-surface-variant/40 mb-3" />
                         <p className="text-sm font-bold text-on-surface-variant">Your Coffee Circle is Empty</p>
                         <p className="text-[11px] text-on-surface-variant/70 mt-1 max-w-xs mx-auto text-center font-sans leading-relaxed">
-                          Search by username above (e.g., <span className="font-bold">meerim_coffee</span>) or use the suggestions list to add friends and spot them on your map.
+                          Friends will show up here, and on your map, once accounts launch.
                         </p>
                       </div>
                     )}
