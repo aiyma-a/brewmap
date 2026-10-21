@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brewmap design options</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:#e9e6e1;color:#222;padding:24px}
+h1{font-size:22px;margin:0 0 4px}p.sub{margin:0 0 24px;color:#555}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;max-width:1300px}
+.label{font-weight:700;margin:0 0 8px}.label small{display:block;font-weight:400;color:#666}
+.phone{border-radius:28px;overflow:hidden;border:6px solid #1c1c1c;background:var(--bg);color:var(--text);height:620px;display:flex;flex-direction:column;position:relative}
+.map{flex:0 0 250px;position:relative;background:var(--land)}
+.map svg{width:100%;height:100%;display:block}
+.search{position:absolute;left:12px;right:12px;top:12px;background:var(--card);border-radius:var(--r);padding:11px 14px;font-size:14px;color:var(--muted);box-shadow:0 2px 10px #0002}
+.chips{display:flex;gap:8px;padding:12px;overflow:hidden}
+.chip{font-size:13px;padding:7px 13px;border-radius:99px;background:var(--card);border:1px solid var(--line);white-space:nowrap}
+.chip.on{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
+.list{padding:0 12px;display:flex;flex-direction:column;gap:var(--gap)}
+.card{background:var(--card);border-radius:var(--r);padding:12px;display:flex;gap:12px;align-items:center;border:1px solid var(--line)}
+.ph{width:56px;height:56px;border-radius:calc(var(--r) - 4px);background:var(--accent);opacity:.85;flex:none}
+.card b{font-size:16px;display:block}.card span{font-size:13px;color:var(--muted)}
+.open{color:var(--open);font-weight:700}
+.t1{--bg:#F5EFE6;--card:#FFFBF5;--text:#2B211C;--muted:#6b5b52;--line:#e6dccf;--accent:#8A5A3C;--onaccent:#fff;--open:#4F7A4A;--r:16px;--gap:10px;--land:#F1E9DC;--park:#D9E3CB;--water:#BFD0D6;--road:#FFFDF8;--pin:#8A5A3C}
+.t2{--bg:#F1F4EC;--card:#fff;--text:#1F2A22;--muted:#5a6a5e;--line:#dde5d6;--accent:#5E8C61;--onaccent:#fff;--open:#3f7a45;--r:14px;--gap:10px;--land:#E6ECE0;--park:#CFE3CB;--water:#A9D3D2;--road:#fff;--pin:#5E8C61}
+.t3{--bg:#1E1B19;--card:#2A2623;--text:#EDE3D8;--muted:#b3a698;--line:#3a3430;--accent:#D9A066;--onaccent:#1E1B19;--open:#8DB48A;--r:16px;--gap:10px;--land:#2b2623;--park:#2f3a2c;--water:#26333a;--road:#4a423c;--pin:#D9A066}
+.t4{--bg:#FAFAF8;--card:#fff;--text:#1A1A1A;--muted:#6a6a66;--line:#ececE8;--accent:#6F4E37;--onaccent:#fff;--open:#2f7d3a;--r:8px;--gap:16px;--land:#EDEDEA;--park:#E2E6DD;--water:#D5DDE2;--road:#fff;--pin:#6F4E37}
+.t4 .card{border:0;box-shadow:0 1px 0 var(--line)}.t4 .card b{font-size:17px}
+</style></head><body>
+<h1>Brewmap design options</h1>
+<p class="sub">Mock-ups, not the real app. Same screen in four styles: map, search, filters, list.</p>
+<div class="grid" id="g"></div>
+<script>
+const opts=[["t1","1 · Oat Milk","calm, warm, light (my pick)"],["t2","2 · Matcha Studio","fresh, modern"],["t3","3 · Midnight Roast","gentle dark mode"],["t4","4 · Swiss Minimal","clean, lots of space"]];
+const map=`<svg viewBox="0 0 300 250" preserveAspectRatio="xMidYMid slice"><rect width="300" height="250" fill="var(--land)"/><path d="M0 170 Q80 150 140 190 T300 170 V250 H0Z" fill="var(--water)"/><rect x="170" y="20" width="90" height="70" rx="14" fill="var(--park)"/><rect x="20" y="90" width="60" height="45" rx="12" fill="var(--park)"/><g stroke="var(--road)" stroke-width="9" fill="none" stroke-linecap="round"><path d="M-10 60 L310 100"/><path d="M110 -10 L150 260"/><path d="M0 140 L300 130" stroke-width="6"/></g><g fill="var(--pin)"><circle cx="75" cy="85" r="9"/><circle cx="190" cy="115" r="9"/><circle cx="130" cy="60" r="9"/><circle cx="220" cy="150" r="9"/></g><g fill="#fff"><circle cx="75" cy="85" r="3.5"/><circle cx="190" cy="115" r="3.5"/><circle cx="130" cy="60" r="3.5"/><circle cx="220" cy="150" r="3.5"/></g></svg>`;
+document.getElementById('g').innerHTML=opts.map(([c,n,d])=>`<div><p class="label">${n}<small>${d}</small></p><div class="phone ${c}"><div class="map">${map}<div class="search">Search coffee shops…</div></div>
+<div class="chips"><span class="chip on">Open now</span><span class="chip">Rating 4+</span><span class="chip">Outdoor</span><span class="chip">Takeaway</span></div>
+<div class="list"><div class="card"><div class="ph"></div><div><b>Bishkek Coffee Roasters</b><span>★ 4.8 · 0.4 km · <i class="open" style="font-style:normal">Open now</i></span></div></div>
+<div class="card"><div class="ph"></div><div><b>Kant Corner Café</b><span>★ 4.5 · 1.2 km · <i class="open" style="font-style:normal">Open now</i></span></div></div>
+<div class="card"><div class="ph"></div><div><b>Pour &amp; Co</b><span>★ 4.6 · 2.0 km · Closed</span></div></div></div></div></div>`).join('');
+</script></body></html>
