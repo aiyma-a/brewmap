@@ -48,7 +48,7 @@ const STATIC_REVIEWS = [
   {
     id: 1,
     user: 'Alex Rivera',
-    avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100&h=100&fit=crop',
+    avatar: `${import.meta.env.BASE_URL}images/4eba7fa13f.jpg`,
     shopName: 'Sierra Roasters',
     rating: 5,
     comment: 'The v60 here is unmatched. Perfectly balanced fruity notes and excellent service.',
@@ -57,7 +57,7 @@ const STATIC_REVIEWS = [
   {
     id: 2,
     user: 'Sarah Chen',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
+    avatar: `${import.meta.env.BASE_URL}images/c5e750cf91.jpg`,
     shopName: 'Brew Haven',
     rating: 4.5,
     comment: 'Great atmosphere for working. The espresso is bold but smooth.',
@@ -66,7 +66,7 @@ const STATIC_REVIEWS = [
   {
     id: 3,
     user: 'Damir Begaliev',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
+    avatar: `${import.meta.env.BASE_URL}images/d85d39bb13.jpg`,
     shopName: 'Urban Coffee',
     rating: 4,
     comment: 'Best pastries in Bishkek! A bit crowded on weekends though.',
@@ -80,7 +80,7 @@ const ARTICLES = [
     title: 'The Art of Light Roasting',
     author: 'Sierra Roasters',
     excerpt: 'Discover why we favor light roasts to bring out the unique terroir of our Central American beans...',
-    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=250&fit=crop',
+    image: `${import.meta.env.BASE_URL}images/cf27a0d8e8.jpg`,
     readTime: '5 min read',
     date: 'May 15, 2026'
   },
@@ -89,7 +89,7 @@ const ARTICLES = [
     title: 'Sustainable Sourcing in Tokmok',
     author: 'Eco Brew',
     excerpt: 'Our journey to find the most ethical farms in the region and how it impacts your daily cup...',
-    image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=250&fit=crop',
+    image: `${import.meta.env.BASE_URL}images/d1617cace2.jpg`,
     readTime: '8 min read',
     date: 'May 12, 2026'
   },
@@ -98,7 +98,7 @@ const ARTICLES = [
     title: 'Espresso Machine Maintenance 101',
     author: 'Brew Haven',
     excerpt: 'Keep your shots consistent with these daily and weekly maintenance tips for your home setup...',
-    image: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&h=250&fit=crop',
+    image: `${import.meta.env.BASE_URL}images/da22111e81.jpg`,
     readTime: '4 min read',
     date: 'May 10, 2026'
   }
@@ -167,13 +167,13 @@ export default function BrewlogScreen() {
   const [newArticleTitle, setNewArticleTitle] = useState('');
   const [newArticleExcerpt, setNewArticleExcerpt] = useState('');
   const [newArticleReadTime, setNewArticleReadTime] = useState('5 min read');
-  const [newArticleImage, setNewArticleImage] = useState('https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=400&fit=crop');
+  const [newArticleImage, setNewArticleImage] = useState(`${import.meta.env.BASE_URL}images/d67e8215db.jpg`);
 
   const ARTICLE_IMAGE_PRESETS = [
-    { url: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=400&fit=crop', label: 'Latte Art' },
-    { url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=400&fit=crop', label: 'Cozy Cafe' },
-    { url: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=400&fit=crop', label: 'Coffee Beans' },
-    { url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=400&fit=crop', label: 'Pour-Over' }
+    { url: `${import.meta.env.BASE_URL}images/d67e8215db.jpg`, label: 'Latte Art' },
+    { url: `${import.meta.env.BASE_URL}images/5d5ba533d7.jpg`, label: 'Cozy Cafe' },
+    { url: `${import.meta.env.BASE_URL}images/8c6a5473a0.jpg`, label: 'Coffee Beans' },
+    { url: `${import.meta.env.BASE_URL}images/f171734371.jpg`, label: 'Pour-Over' }
   ];
   
   const [bgLocationTracking, setBgLocationTracking] = useState<boolean>(() => {
