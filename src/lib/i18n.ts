@@ -246,7 +246,8 @@ export function getThemeMode(): 'light' | 'dark' {
   if (saved === 'dark' || saved === 'light') {
     return saved;
   }
-  return 'light'; // Default
+  // No saved choice: follow the phone/computer setting
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
 export function setThemeMode(theme: 'light' | 'dark'): void {

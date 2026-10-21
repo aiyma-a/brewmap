@@ -38,9 +38,9 @@ const getRatingLabel = (val: number): string => {
 const CUSTOM_VECTOR_AVATARS = [
   { id: 'vec_espresso', name: 'Espresso', bg: 'bg-[#4B3621]', text: 'text-white' },
   { id: 'vec_latte', name: 'Latte', bg: 'bg-[#C2B280]', text: 'text-[#4B3621]' },
-  { id: 'vec_mocha', name: 'Mocha', bg: 'bg-[#6F4E37]', text: 'text-white' },
+  { id: 'vec_mocha', name: 'Mocha', bg: 'bg-brand', text: 'text-white' },
   { id: 'vec_caramel', name: 'Caramel', bg: 'bg-[#C68E17]', text: 'text-white' },
-  { id: 'vec_cream', name: 'Cream', bg: 'bg-[#F5F5DC]', text: 'text-[#6F4E37]' },
+  { id: 'vec_cream', name: 'Cream', bg: 'bg-[#F5F5DC]', text: 'text-brand' },
   { id: 'vec_black', name: 'Black', bg: 'bg-[#1A1A1A]', text: 'text-white' }
 ];
 
@@ -303,7 +303,7 @@ export default function BrewlogScreen() {
         </button>
         <div className="flex items-center gap-1.5 absolute left-1/2 -translate-x-1/2">
           <h1 className="font-headline text-2xl text-primary tracking-tighter uppercase font-black">Brewmap</h1>
-          <Coffee className="text-[#6F4E37]" size={26} fill="currentColor" />
+          <Coffee className="text-brand" size={26} fill="currentColor" />
         </div>
 
         <div className="flex items-center gap-1.5 relative z-20">
@@ -393,7 +393,7 @@ export default function BrewlogScreen() {
                     {/* Language Selection option */}
                     <div className="space-y-1.5 border-t border-outline-variant/20 pt-2.5 text-left">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-on-surface">
-                        <Globe size={14} className="text-[#306a34]" />
+                        <Globe size={14} className="text-open" />
                         <span>{t.langLabel}</span>
                       </div>
                       <div className="grid grid-cols-3 gap-1 bg-surface-container rounded-xl p-0.5 border border-outline-variant/15">
@@ -424,7 +424,7 @@ export default function BrewlogScreen() {
                       <button
                         type="button"
                         onClick={toggleBackgroundTracking}
-                        className={`w-8 h-4.5 rounded-full p-0.5 flex-shrink-0 transition-colors duration-200 outline-none ${bgLocationTracking ? 'bg-[#306a34]' : 'bg-outline-variant'}`}
+                        className={`w-8 h-4.5 rounded-full p-0.5 flex-shrink-0 transition-colors duration-200 outline-none ${bgLocationTracking ? 'bg-open' : 'bg-outline-variant'}`}
                       >
                         <div className={`bg-white w-3.5 h-3.5 rounded-full shadow-sm transform duration-200 ${bgLocationTracking ? 'translate-x-3.5' : 'translate-x-0'}`} />
                       </button>
@@ -671,7 +671,7 @@ export default function BrewlogScreen() {
                 <form onSubmit={handleAddReviewSubmit} className="space-y-4 text-left">
                   {/* Shop selection */}
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase font-bold text-[#6F4E37] tracking-wider font-mono">Select Coffee Shop</label>
+                    <label className="text-[10px] uppercase font-bold text-brand tracking-wider font-mono">Select Coffee Shop</label>
                     <select
                       value={newReviewShopId}
                       onChange={(e) => setNewReviewShopId(e.target.value)}
@@ -686,7 +686,7 @@ export default function BrewlogScreen() {
 
                   {newReviewShopId === 'custom' && (
                     <div className="space-y-1 animate-fade-in">
-                      <label className="text-[10px] uppercase font-bold text-[#6F4E37] tracking-wider font-mono">Custom Shop Name</label>
+                      <label className="text-[10px] uppercase font-bold text-brand tracking-wider font-mono">Custom Shop Name</label>
                       <input
                         type="text"
                         placeholder="Enter the custom coffee shop name..."
@@ -700,7 +700,7 @@ export default function BrewlogScreen() {
 
                   {/* Rating Selector */}
                   <div className="space-y-1 flex flex-col items-center py-3 px-1 bg-surface-container/30 rounded-2xl border border-outline-variant/10">
-                    <span className="text-[10px] uppercase font-bold text-[#6F4E37] tracking-wider font-mono mb-1.5">Rating Rating</span>
+                    <span className="text-[10px] uppercase font-bold text-brand tracking-wider font-mono mb-1.5">Rating Rating</span>
                     <div className="flex gap-1.5">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
@@ -722,14 +722,14 @@ export default function BrewlogScreen() {
                         </button>
                       ))}
                     </div>
-                    <span className="text-[9px] font-extrabold text-[#6F4E37] bg-[#6F4E37]/10 px-2.5 py-0.5 rounded-full font-mono tracking-wider uppercase mt-2">
+                    <span className="text-[9px] font-extrabold text-brand bg-brand/10 px-2.5 py-0.5 rounded-full font-mono tracking-wider uppercase mt-2">
                        {getRatingLabel(newReviewRating)} ({newReviewRating.toFixed(1)})
                     </span>
                   </div>
 
                   {/* Comment */}
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase font-bold text-[#6F4E37] tracking-wider font-mono">Drip Notes & Coffee Experience</label>
+                    <label className="text-[10px] uppercase font-bold text-brand tracking-wider font-mono">Drip Notes & Coffee Experience</label>
                     <textarea
                       placeholder="Comment on flavor profiles, espresso machine calibration, wifi speed, working environment, or cozy vibes..."
                       required
@@ -759,7 +759,7 @@ export default function BrewlogScreen() {
                 <form onSubmit={handleAddArticleSubmit} className="space-y-4 text-left">
                   {/* Title */}
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase font-bold text-[#6F4E37] tracking-wider font-mono">Article Title</label>
+                    <label className="text-[10px] uppercase font-bold text-brand tracking-wider font-mono">Article Title</label>
                     <input
                       type="text"
                       placeholder="e.g. Navigating Light Roasts in Tokmok"
@@ -772,7 +772,7 @@ export default function BrewlogScreen() {
 
                   {/* Read Time */}
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase font-bold text-[#6F4E37] tracking-wider font-mono">Read time</label>
+                    <label className="text-[10px] uppercase font-bold text-brand tracking-wider font-mono">Read time</label>
                     <input
                       type="text"
                       placeholder="e.g. 5 min read"
@@ -784,7 +784,7 @@ export default function BrewlogScreen() {
 
                   {/* Cover Image Selector */}
                   <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase font-bold text-[#6F4E37] tracking-wider font-mono block">Cover Graphic</label>
+                    <label className="text-[10px] uppercase font-bold text-brand tracking-wider font-mono block">Cover Graphic</label>
                     <div className="grid grid-cols-4 gap-2">
                       {ARTICLE_IMAGE_PRESETS.map((preset, idx) => (
                         <button
@@ -803,7 +803,7 @@ export default function BrewlogScreen() {
 
                   {/* Excerpt Content */}
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase font-bold text-[#6F4E37] tracking-wider font-mono">Full Article Story</label>
+                    <label className="text-[10px] uppercase font-bold text-brand tracking-wider font-mono">Full Article Story</label>
                     <textarea
                       placeholder="Share your technical barista instructions, light roast reviews, or brewing guides with the community..."
                       required
@@ -904,7 +904,7 @@ export default function BrewlogScreen() {
 
                 <div className="flex items-center justify-between border-t border-outline-variant/10 pt-3">
                   <div className="flex items-center gap-2">
-                    <Globe size={15} className="text-[#306a34]" />
+                    <Globe size={15} className="text-open" />
                     <span className="text-xs font-bold text-on-surface">{t.langLabel}</span>
                   </div>
                   <div className="flex items-center gap-0.5 bg-surface rounded-xl p-0.5 border border-outline-variant/20">

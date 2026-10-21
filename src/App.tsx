@@ -34,8 +34,8 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
     return (
       <div className="bg-[#FAF8F5] min-h-screen flex items-center justify-center font-sans text-center">
         <div className="space-y-4">
-          <div className="w-10 h-10 border-4 border-[#6F4E37]/35 border-t-[#6F4E37] rounded-full animate-spin mx-auto" />
-          <p className="text-[10px] font-bold tracking-widest text-[#6F4E37] uppercase font-mono">Loading Brewmap...</p>
+          <div className="w-10 h-10 border-4 border-brand/35 border-t-brand rounded-full animate-spin mx-auto" />
+          <p className="text-[10px] font-bold tracking-widest text-brand uppercase font-mono">Loading Brewmap...</p>
         </div>
       </div>
     );

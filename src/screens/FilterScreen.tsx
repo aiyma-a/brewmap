@@ -123,7 +123,7 @@ export default function FilterScreen() {
         </button>
         <div className="flex items-center gap-1.5 absolute left-1/2 -translate-x-1/2" id="filter-logo">
           <h1 className="font-headline text-2xl text-primary tracking-tighter uppercase font-black">Brewmap</h1>
-          <Coffee className="text-[#6F4E37]" size={26} fill="currentColor" />
+          <Coffee className="text-brand" size={26} fill="currentColor" />
         </div>
         <div className="w-10" /> {/* Spacer */}
       </header>
@@ -156,7 +156,7 @@ export default function FilterScreen() {
                 onClick={() => setSelectedCities([])}
                 className={`px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all active:scale-95 border ${
                   selectedCities.length === 0 
-                  ? 'bg-[#6F4E37] text-white border-[#6F4E37] shadow-sm' 
+                  ? 'bg-brand text-white border-brand shadow-sm' 
                   : 'bg-surface-variant text-on-surface-variant border-transparent hover:bg-surface-container-high'
                 }`}
               >
@@ -181,7 +181,7 @@ export default function FilterScreen() {
                     }}
                     className={`px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all active:scale-95 border ${
                       isSelected 
-                      ? 'bg-[#6F4E37] text-white border-[#6F4E37] shadow-sm' 
+                      ? 'bg-brand text-white border-brand shadow-sm' 
                       : 'bg-surface-variant text-on-surface-variant border-transparent hover:bg-surface-container-high'
                     }`}
                   >
@@ -240,7 +240,7 @@ export default function FilterScreen() {
             <div className="py-2 max-w-[200px]">
               <input 
                 max="50" min="1" type="range" 
-                className="w-full h-[2px] bg-surface-variant dark:bg-[#3e2723] rounded-full appearance-none cursor-pointer accent-[#6F4E37]"
+                className="w-full h-[2px] bg-surface-variant dark:bg-[#3e2723] rounded-full appearance-none cursor-pointer accent-brand"
                 value={radius} 
                 onChange={(e) => setRadius(parseInt(e.target.value))}
               />
@@ -253,7 +253,7 @@ export default function FilterScreen() {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <div className="bg-[#a55e2b]/10 p-2 rounded-xl text-[#a55e2b]">
-                    <Coffee size={16} className="fill-current text-[#6F4E37]" />
+                    <Coffee size={16} className="fill-current text-brand" />
                   </div>
                   <div>
                     <h4 className="text-xs font-black font-headline tracking-tight uppercase text-primary">Map Pointer Filter</h4>
@@ -306,7 +306,7 @@ export default function FilterScreen() {
 
               <div className="flex items-center justify-between pt-3 border-t border-outline-variant/15 mt-3 font-sans">
                 <span className="text-[10px] text-on-surface-variant font-medium">Matching artisanal cafes:</span>
-                <span className="text-xs font-black text-[#306a34] bg-[#306a34]/15 px-2.5 py-1 rounded-full">
+                <span className="text-xs font-black text-open bg-open/15 px-2.5 py-1 rounded-full">
                   {matchingShopsCount} spots
                 </span>
               </div>

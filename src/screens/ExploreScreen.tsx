@@ -103,7 +103,25 @@ const hasValidKey =
   API_KEY.startsWith('AIza') &&
   API_KEY.length > 20;
 
-const MAP_STYLES_PRESETS = {
+// Quiet map style built from a handful of colours: no shop/business icons, calm labels
+const makeMapStyle = (c: { land: string; park: string; water: string; road: string; roadEdge: string; text: string; halo: string }) => [
+  { featureType: 'all', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi.business', stylers: [{ visibility: 'off' }] },
+  { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+  { elementType: 'geometry', stylers: [{ color: c.land }] },
+  { elementType: 'labels.text.fill', stylers: [{ color: c.text }] },
+  { elementType: 'labels.text.stroke', stylers: [{ color: c.halo }] },
+  { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: c.park }] },
+  { featureType: 'water', elementType: 'geometry', stylers: [{ color: c.water }] },
+  { featureType: 'road', elementType: 'geometry.fill', stylers: [{ color: c.road }] },
+  { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: c.roadEdge }] },
+  { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: c.roadEdge }] },
+];
+
+const MAP_STYLES_PRESETS: Record<string, any[]> = {
+  // Follow the app theme by default: Oat Milk (light) / Midnight Roast (dark)
+  oat: makeMapStyle({ land: '#F1E9DC', park: '#D9E3CB', water: '#BFD0D6', road: '#FFFDF8', roadEdge: '#E3D8C8', text: '#6B5B52', halo: '#F5EFE6' }),
+  roast: makeMapStyle({ land: '#2B2623', park: '#2F3A2C', water: '#26333A', road: '#4A423C', roadEdge: '#38322D', text: '#B3A698', halo: '#1E1B19' }),
   earthy: [
     {
       "featureType": "all",
@@ -478,7 +496,7 @@ function MapContent({
   pointedLocation?: { lat: number, lng: number } | null,
   pointedRadius?: number,
   onMapClick?: (latLng: { lat: number, lng: number }) => void,
-  mapStyleId?: 'earthy' | 'nordic' | 'espresso' | 'retro' | 'custom',
+  mapStyleId?: 'auto' | 'oat' | 'roast' | 'earthy' | 'nordic' | 'espresso' | 'retro' | 'custom',
   customRoadColor?: string,
   customLandscapeColor?: string,
   customParkColor?: string,
@@ -486,7 +504,7 @@ function MapContent({
   showFriendsOnMap?: boolean,
   showRadiusGuide?: boolean,
   showShopNames?: boolean,
-  onMapStyleChange: (id: 'earthy' | 'nordic' | 'espresso' | 'retro' | 'custom') => void,
+  onMapStyleChange: (id: 'auto' | 'oat' | 'roast' | 'earthy' | 'nordic' | 'espresso' | 'retro' | 'custom') => void,
   onToggleFriends: () => void,
   onToggleRadius: () => void,
   onToggleShopNames: () => void,
@@ -939,9 +957,9 @@ const SEARCHABLE_USERS = [
 const CUSTOM_VECTOR_AVATARS = [
   { id: 'vec_espresso', name: 'Espresso', bg: 'bg-[#4B3621]', text: 'text-white' },
   { id: 'vec_latte', name: 'Latte', bg: 'bg-[#C2B280]', text: 'text-[#4B3621]' },
-  { id: 'vec_mocha', name: 'Mocha', bg: 'bg-[#6F4E37]', text: 'text-white' },
+  { id: 'vec_mocha', name: 'Mocha', bg: 'bg-brand', text: 'text-white' },
   { id: 'vec_caramel', name: 'Caramel', bg: 'bg-[#C68E17]', text: 'text-white' },
-  { id: 'vec_cream', name: 'Cream', bg: 'bg-[#F5F5DC]', text: 'text-[#6F4E37]' },
+  { id: 'vec_cream', name: 'Cream', bg: 'bg-[#F5F5DC]', text: 'text-brand' },
   { id: 'vec_black', name: 'Black', bg: 'bg-[#1A1A1A]', text: 'text-white' }
 ];
 
@@ -1101,8 +1119,8 @@ export default function ExploreScreen() {
   const [expandedProfileSection, setExpandedProfileSection] = useState<'visited' | 'connections' | null>(null);
   const [isInlineFilterOpen, setIsInlineFilterOpen] = useState(false);
 
-  const [mapStyleId, setMapStyleId] = useState<'earthy' | 'nordic' | 'espresso' | 'retro' | 'custom'>(() => {
-    return (localStorage.getItem('brewmap_map_style_id') as any) || 'earthy';
+  const [mapStyleId, setMapStyleId] = useState<'auto' | 'oat' | 'roast' | 'earthy' | 'nordic' | 'espresso' | 'retro' | 'custom'>(() => {
+    return (localStorage.getItem('brewmap_map_style_id') as any) || 'auto';
   });
   const [showFriendsOnMap, setShowFriendsOnMap] = useState<boolean>(() => {
     const val = localStorage.getItem('brewmap_show_friends');
@@ -1129,7 +1147,7 @@ export default function ExploreScreen() {
     return localStorage.getItem('brewmap_custom_water_color') || '#cedad6';
   });
 
-  const handleMapStyleChange = (id: 'earthy' | 'nordic' | 'espresso' | 'retro' | 'custom') => {
+  const handleMapStyleChange = (id: 'auto' | 'oat' | 'roast' | 'earthy' | 'nordic' | 'espresso' | 'retro' | 'custom') => {
     setMapStyleId(id);
     localStorage.setItem('brewmap_map_style_id', id);
   };
@@ -1156,7 +1174,7 @@ export default function ExploreScreen() {
   };
 
   // Map Customizer States
-  const [draftStyleId, setDraftStyleId] = useState<'earthy' | 'nordic' | 'espresso' | 'retro' | 'custom'>(mapStyleId);
+  const [draftStyleId, setDraftStyleId] = useState<'auto' | 'oat' | 'roast' | 'earthy' | 'nordic' | 'espresso' | 'retro' | 'custom'>(mapStyleId);
   const [draftShowFriends, setDraftShowFriends] = useState<boolean>(showFriendsOnMap);
   const [draftShowRadius, setDraftShowRadius] = useState<boolean>(showRadiusGuide);
   const [draftShowShopNames, setDraftShowShopNames] = useState<boolean>(showShopNames);
@@ -2029,7 +2047,7 @@ export default function ExploreScreen() {
             </div>
             <div className="flex items-center gap-1.5 absolute left-1/2 -translate-x-1/2" id="app-logo">
               <h1 className="font-headline text-2xl text-primary tracking-tighter uppercase font-black leading-none">Brewmap</h1>
-              <Coffee className="text-[#6F4E37]" size={24} fill="currentColor" />
+              <Coffee className="text-brand" size={24} fill="currentColor" />
             </div>
 
             <div className="flex items-center gap-1.5">
@@ -2123,7 +2141,7 @@ export default function ExploreScreen() {
                           {/* Language Selection option */}
                           <div className="space-y-1.5 border-t border-outline-variant/20 pt-2.5 text-left">
                             <div className="flex items-center gap-1.5 text-xs font-bold text-on-surface">
-                              <Globe size={14} className="text-[#306a34]" />
+                              <Globe size={14} className="text-open" />
                               <span>{t.langLabel}</span>
                             </div>
                             <div className="grid grid-cols-3 gap-1 bg-surface-container rounded-xl p-0.5 border border-outline-variant/15">
@@ -2154,7 +2172,7 @@ export default function ExploreScreen() {
                             <button
                               type="button"
                               onClick={toggleBackgroundTracking}
-                              className={`w-8 h-4.5 rounded-full p-0.5 flex-shrink-0 transition-colors duration-200 outline-none ${bgLocationTracking ? 'bg-[#306a34]' : 'bg-outline-variant'}`}
+                              className={`w-8 h-4.5 rounded-full p-0.5 flex-shrink-0 transition-colors duration-200 outline-none ${bgLocationTracking ? 'bg-open' : 'bg-outline-variant'}`}
                             >
                               <div className={`bg-white w-3.5 h-3.5 rounded-full shadow-sm transform duration-200 ${bgLocationTracking ? 'translate-x-3.5' : 'translate-x-0'}`} />
                             </button>
@@ -2193,7 +2211,7 @@ export default function ExploreScreen() {
                                 { id: 'nordic', name: 'Pistachio Mint', colorBg: 'bg-[#f5faf6] border-[#b6dbc3]', indicator: 'bg-[#134421]', text: 'text-[#1b321e]' },
                                 { id: 'espresso', name: 'Rich Espresso', colorBg: 'bg-[#1d120f] border-[#192d1c]', indicator: 'bg-[#dfcab5]', text: 'text-[#eedece]' },
                                 { id: 'retro', name: 'Vintage Mocha', colorBg: 'bg-[#fffdf5] border-[#ccd9b3]', indicator: 'bg-[#8b4513]', text: 'text-[#4e3629]' },
-                                { id: 'custom', name: 'Custom Blend ⚙️', colorBg: 'bg-surface-container border-outline', indicator: 'bg-[#6F4E37]', text: 'text-[#6F4E37]' },
+                                { id: 'custom', name: 'Custom Blend ⚙️', colorBg: 'bg-surface-container border-outline', indicator: 'bg-brand', text: 'text-brand' },
                               ].map(style => (
                                 <button
                                   key={style.id}
@@ -2560,7 +2578,7 @@ export default function ExploreScreen() {
             pointedLocation={pointedLocation}
             pointedRadius={pointedRadius}
             onMapClick={handleMapClick}
-            mapStyleId={mapStyleId}
+            mapStyleId={mapStyleId === 'auto' ? (themeMode === 'dark' ? 'roast' : 'oat') : mapStyleId}
             customRoadColor={customRoadColor}
             customLandscapeColor={customLandscapeColor}
             customParkColor={customParkColor}
@@ -2770,7 +2788,7 @@ export default function ExploreScreen() {
                           <X size={15} />
                         </button>
                       )}
-                      {isSearching && <Loader2 size={16} className="animate-spin text-[#6F4E37]" />}
+                      {isSearching && <Loader2 size={16} className="animate-spin text-brand" />}
                       <div className="w-px h-5 bg-outline-variant/20" />
                       
                       {/* Interactive Drawer Toggle Button */}
@@ -2792,7 +2810,7 @@ export default function ExploreScreen() {
                               initial={{ scale: 0 }}
                               animate={{ scale: 1 }}
                               exit={{ scale: 0 }}
-                              className="absolute -top-1 -right-1 bg-[#6F4E37] text-white font-extrabold text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center border border-white shadow-md"
+                              className="absolute -top-1 -right-1 bg-brand text-white font-extrabold text-[9px] w-4.5 h-4.5 rounded-full flex items-center justify-center border border-white shadow-md"
                             >
                               {activeFiltersCount}
                             </motion.span>
@@ -2838,7 +2856,7 @@ export default function ExploreScreen() {
                                   }}
                                   className={`flex-shrink-0 px-3 py-1.5 rounded-full text-[11px] font-bold border transition-all active:scale-95 flex items-center gap-1 ${
                                     isSelected
-                                      ? 'bg-[#6F4E37] text-white border-[#6F4E37] shadow-sm'
+                                      ? 'bg-brand text-white border-brand shadow-sm'
                                       : 'bg-surface text-on-surface-variant border-outline-variant/25 hover:bg-surface-container'
                                   }`}
                                 >
@@ -2856,7 +2874,7 @@ export default function ExploreScreen() {
                               }}
                               className={`flex-shrink-0 px-3 py-1.5 rounded-full text-[11px] font-bold border transition-all active:scale-95 flex items-center gap-1 ${
                                 filterCities.length === 0 || filterCities.includes('all') || filterCities.includes('All Cities')
-                                  ? 'bg-[#6F4E37] text-white border-[#6F4E37] shadow-sm'
+                                  ? 'bg-brand text-white border-brand shadow-sm'
                                   : 'bg-surface text-on-surface-variant border-outline-variant/25 hover:bg-surface-container'
                               }`}
                             >
@@ -2887,7 +2905,7 @@ export default function ExploreScreen() {
                                 params.set('radius', e.target.value);
                                 setSearchParams(params, { replace: true });
                               }}
-                              className="flex-1 accent-[#6F4E37] cursor-pointer h-[2px] bg-[#e7e2db] dark:bg-[#3e2723] rounded-full appearance-none"
+                              className="flex-1 accent-brand cursor-pointer h-[2px] bg-[#e7e2db] dark:bg-[#3e2723] rounded-full appearance-none"
                             />
                             <span className="text-[10px] font-bold text-on-surface-variant/50">30k</span>
                           </div>
@@ -2909,7 +2927,7 @@ export default function ExploreScreen() {
                             }}
                             className={`flex items-center gap-2 p-2 rounded-xl border text-left cursor-pointer transition-all active:scale-95 ${
                               filterWifi 
-                                ? 'bg-[#6F4E37]/10 border-[#6F4E37] text-[#6F4E37] font-bold' 
+                                ? 'bg-brand/10 border-brand text-brand font-bold' 
                                 : 'bg-surface/50 border-outline-variant/20 text-on-surface-variant hover:border-outline-variant/40'
                             }`}
                           >
@@ -2934,7 +2952,7 @@ export default function ExploreScreen() {
                             }}
                             className={`flex items-center gap-2 p-2 rounded-xl border text-left cursor-pointer transition-all active:scale-95 ${
                               filterOutlets 
-                                ? 'bg-[#6F4E37]/10 border-[#6F4E37] text-[#6F4E37] font-bold' 
+                                ? 'bg-brand/10 border-brand text-brand font-bold' 
                                 : 'bg-surface/50 border-outline-variant/20 text-on-surface-variant hover:border-outline-variant/40'
                             }`}
                           >
@@ -2969,7 +2987,7 @@ export default function ExploreScreen() {
                           <button
                             type="button"
                             onClick={() => setIsInlineFilterOpen(false)}
-                            className="bg-[#6F4E37] hover:bg-[#5a3f2c] text-white text-[10px] font-bold uppercase tracking-wider px-4 py-1.5 rounded-xl shadow-md cursor-pointer flex items-center gap-1 active:scale-95 transition-all text-right"
+                            className="bg-brand hover:bg-[#5a3f2c] text-white text-[10px] font-bold uppercase tracking-wider px-4 py-1.5 rounded-xl shadow-md cursor-pointer flex items-center gap-1 active:scale-95 transition-all text-right"
                           >
                             <Check size={12} />
                             Apply Changes
@@ -3710,7 +3728,7 @@ export default function ExploreScreen() {
                             className={`px-3 py-1.5 rounded-xl text-[10px] font-black transition-all active:scale-95 cursor-pointer uppercase ${
                               isVisited 
                                 ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm' 
-                                : 'bg-[#6F4E37]/10 hover:bg-[#6F4E37]/15 text-[#6f4e37] border border-[#6f4e37]/15'
+                                : 'bg-brand/10 hover:bg-brand/15 text-brand border border-brand/15'
                             }`}
                           >
                             {isVisited ? 'Visited' : 'Check-In'}
@@ -3807,7 +3825,7 @@ export default function ExploreScreen() {
                                 <div className="flex items-center justify-between pb-2 border-b border-outline-variant/15 mb-3">
                                   <div className="flex items-center gap-1.5">
                                     <Coffee size={13} className="text-[#a55e2b]" />
-                                    <span className="text-[10px] font-extrabold text-[#6F4E37] uppercase tracking-wider font-mono">Your Experience</span>
+                                    <span className="text-[10px] font-extrabold text-brand uppercase tracking-wider font-mono">Your Experience</span>
                                   </div>
                                   <div className="flex items-center gap-2">
                                     {isEditingInlineExplore ? (
@@ -3904,7 +3922,7 @@ export default function ExploreScreen() {
                                         inlineHoverRatingExplore,
                                         setInlineHoverRatingExplore
                                       )}
-                                      <p className="text-[10px] font-extrabold text-[#6F4E37] uppercase tracking-widest mt-1.5 font-mono">
+                                      <p className="text-[10px] font-extrabold text-brand uppercase tracking-widest mt-1.5 font-mono">
                                         ☕ {getRatingLabel(inlineRatingExplore)} ({inlineRatingExplore.toFixed(1)})
                                       </p>
                                     </div>
@@ -3982,7 +4000,7 @@ export default function ExploreScreen() {
                                             );
                                           })}
                                         </div>
-                                        <span className="text-[9px] font-extrabold text-[#6F4E37] bg-[#6F4E37]/10 px-1.5 py-0.5 rounded font-mono tracking-wider uppercase ml-1.5">
+                                        <span className="text-[9px] font-extrabold text-brand bg-brand/10 px-1.5 py-0.5 rounded font-mono tracking-wider uppercase ml-1.5">
                                           {getRatingLabel(userReviewForThisShop.rating)} ({userReviewForThisShop.rating.toFixed(1)})
                                         </span>
                                       </div>
@@ -4112,7 +4130,7 @@ export default function ExploreScreen() {
                         <Coffee size={22} />
                       </div>
                       <div>
-                        <span className="text-[10px] font-bold tracking-widest text-[#6F4E37] uppercase">Brew Rating</span>
+                        <span className="text-[10px] font-bold tracking-widest text-brand uppercase">Brew Rating</span>
                         <h3 className="text-lg font-black text-on-surface leading-snug">{selectedShopForReview.name}</h3>
                       </div>
                     </div>
@@ -4129,7 +4147,7 @@ export default function ExploreScreen() {
                           setHoverRating
                         )}
                         
-                        <p className="text-xs font-extrabold text-[#6F4E37] mt-2.5 uppercase tracking-widest font-mono flex items-center justify-center gap-1">
+                        <p className="text-xs font-extrabold text-brand mt-2.5 uppercase tracking-widest font-mono flex items-center justify-center gap-1">
                           <span>☕</span>
                           <span>{getRatingLabel(reviewRating)}</span>
                           <span className="text-[10px] text-on-surface-variant/70">({reviewRating.toFixed(1)})</span>
@@ -4231,7 +4249,7 @@ export default function ExploreScreen() {
                         href={`sms:?body=${encodeURIComponent(`Check out my specialty coffee profile on BrewMap! ☕✨\n\n👤 ${userProfile.name} (@${userProfile.username})\nConnect with me here: ${window.location.origin}/?tab=social&username=${userProfile.username}`)}`}
                         className="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-colors text-center group active:scale-95"
                       >
-                        <div className="w-10 h-10 rounded-full bg-[#6F4E37]/10 text-[#6F4E37] flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
+                        <div className="w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
                           <MessageSquare size={18} />
                         </div>
                         <span className="text-[10px] font-bold text-on-surface-variant">Text Msg</span>
@@ -4268,7 +4286,7 @@ export default function ExploreScreen() {
                         href={`mailto:?subject=${encodeURIComponent(`Fellow coffee lover ${userProfile.name} on BrewMap!`)}&body=${encodeURIComponent(`Check out my specialty coffee profile on BrewMap! ☕✨\n\n👤 ${userProfile.name} (@${userProfile.username})\n📖 "${userProfile.bio}"\n\nConnect with me here: ${window.location.origin}/?tab=social&username=${userProfile.username}`)}`}
                         className="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-colors text-center group active:scale-95"
                       >
-                        <div className="w-10 h-10 rounded-full bg-[#6F4E37]/10 text-[#6F4E37] flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
+                        <div className="w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
                           <Mail size={18} />
                         </div>
                         <span className="text-[10px] font-bold text-on-surface-variant">Email</span>
@@ -4307,7 +4325,7 @@ export default function ExploreScreen() {
                     <div className="mb-6 flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="bg-primary/10 w-14 h-14 rounded-full flex items-center justify-center text-primary shrink-0 shadow-sm">
-                          <Coffee size={30} className="fill-current text-[#6F4E37]" />
+                          <Coffee size={30} className="fill-current text-brand" />
                         </div>
                         <div>
                           <h3 className="font-headline font-black text-primary text-base">Share Coffee Shop</h3>
@@ -4340,7 +4358,7 @@ export default function ExploreScreen() {
                           <span className="text-[10px] text-on-surface-variant/80">({shareShopData.reviewCount || 120} reviews)</span>
                         </div>
                         <div className="flex items-center gap-1 mt-1 text-on-surface-variant/80">
-                          <MapPin size={10} className="text-[#6F4E37] shrink-0" />
+                          <MapPin size={10} className="text-brand shrink-0" />
                           <p className="text-[10px] truncate font-sans">{shareShopData.address}</p>
                         </div>
                       </div>
@@ -4354,7 +4372,7 @@ export default function ExploreScreen() {
                         href={`sms:?body=${encodeURIComponent(`Check out this coffee shop on Brewmap! ☕✨\n\n🏠 ${shareShopData.name}\n📍 ${shareShopData.address}\n\nJoin the roaster community and discover more: ${window.location.origin}/shop/${shareShopData.id}`)}`}
                         className="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-colors text-center group active:scale-95"
                       >
-                        <div className="w-10 h-10 rounded-full bg-[#6F4E37]/10 text-[#6F4E37] flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
+                        <div className="w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
                           <MessageSquare size={18} />
                         </div>
                         <span className="text-[10px] font-bold text-on-surface-variant">Text Msg</span>
@@ -4391,7 +4409,7 @@ export default function ExploreScreen() {
                         href={`mailto:?subject=${encodeURIComponent(`Specialty Coffee Recommendation: ${shareShopData.name}`)}&body=${encodeURIComponent(`Hey! I wanted to recommend this coffee shop from Brewmap:\n\n🏠 ${shareShopData.name}\n⭐️ Rating: ${shareShopData.rating}\n📍 Address: ${shareShopData.address}\n\nCheck out reviews and details here: ${window.location.origin}/shop/${shareShopData.id}\n\nHappy brewing!`)}`}
                         className="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-colors text-center group active:scale-95"
                       >
-                        <div className="w-10 h-10 rounded-full bg-[#6F4E37]/10 text-[#6F4E37] flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
+                        <div className="w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
                           <Mail size={18} />
                         </div>
                         <span className="text-[10px] font-bold text-on-surface-variant">Email</span>
@@ -4514,7 +4532,7 @@ export default function ExploreScreen() {
                       <div className="text-left space-y-3">
                         <div>
                           <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1 font-mono">Coffee Mug Avatar</label>
-                          <p className="text-[9px] text-[#6F4E37] mb-2 font-medium">☕ Choose your mug logo. Personal picture uploads are disabled.</p>
+                          <p className="text-[9px] text-brand mb-2 font-medium">☕ Choose your mug logo. Personal picture uploads are disabled.</p>
                         </div>
 
                         {/* Coloured Mug Logos Section */}
@@ -4774,7 +4792,7 @@ export default function ExploreScreen() {
                                     return (
                                       <div 
                                         key={shop.id}
-                                        className="bg-surface/90 dark:bg-zinc-900/40 border border-outline-variant/10 rounded-2xl flex flex-col hover:border-[#6F4E37]/30 transition-all duration-300 overflow-hidden shadow-sm"
+                                        className="bg-surface/90 dark:bg-zinc-900/40 border border-outline-variant/10 rounded-2xl flex flex-col hover:border-brand/30 transition-all duration-300 overflow-hidden shadow-sm"
                                       >
                                         {/* Header Row (Clickable to Toggle Expansion) */}
                                         <div 
@@ -4803,7 +4821,7 @@ export default function ExploreScreen() {
 
                                           <div className="flex-1 min-w-0">
                                             <div className="flex items-center gap-1.5 flex-wrap">
-                                              <h6 className="text-xs font-black font-headline text-on-surface leading-tight truncate hover:text-[#6F4E37] transition-colors">
+                                              <h6 className="text-xs font-black font-headline text-on-surface leading-tight truncate hover:text-brand transition-colors">
                                                 {shop.name}
                                               </h6>
                                               <span className="flex-shrink-0 text-[8.5px] text-emerald-600 dark:text-emerald-450 bg-emerald-500/10 px-1.5 py-0.5 rounded-md font-bold flex items-center gap-0.5 uppercase tracking-wide">
@@ -4880,7 +4898,7 @@ export default function ExploreScreen() {
                                                       setSelectedShopDetail(shop);
                                                       setIsDetailExpanded(true); // Open detail and fully expand
                                                     }}
-                                                    className="flex-1 py-1.5 bg-[#6F4E37] hover:bg-[#5c4033] text-white rounded-xl text-[10.5px] font-black transition-all active:scale-95 flex items-center justify-center gap-1 cursor-pointer shadow-sm uppercase tracking-wide"
+                                                    className="flex-1 py-1.5 bg-brand hover:bg-brand-deep text-white rounded-xl text-[10.5px] font-black transition-all active:scale-95 flex items-center justify-center gap-1 cursor-pointer shadow-sm uppercase tracking-wide"
                                                   >
                                                     <ExternalLink size={12} />
                                                     View Cafe Profile
@@ -5063,7 +5081,7 @@ export default function ExploreScreen() {
 
                           <div className="flex items-center justify-between border-t border-outline-variant/10 pt-3">
                             <div className="flex items-center gap-2">
-                              <Globe size={15} className="text-[#306a34]" />
+                              <Globe size={15} className="text-open" />
                               <span className="text-xs font-bold text-on-surface">{t.langLabel}</span>
                             </div>
                             <div className="flex items-center gap-0.5 bg-surface rounded-xl p-0.5 border border-outline-variant/20">
@@ -5100,7 +5118,7 @@ export default function ExploreScreen() {
                             <button
                               type="button"
                               onClick={toggleBackgroundTracking}
-                              className={`w-9 h-5 rounded-full p-0.5 transition-colors duration-200 outline-none ${bgLocationTracking ? 'bg-[#306a34]' : 'bg-outline-variant'}`}
+                              className={`w-9 h-5 rounded-full p-0.5 transition-colors duration-200 outline-none ${bgLocationTracking ? 'bg-open' : 'bg-outline-variant'}`}
                             >
                               <div className={`bg-white w-4 h-4 rounded-full shadow-sm transform duration-200 ${bgLocationTracking ? 'translate-x-4' : 'translate-x-0'}`} />
                             </button>
@@ -5452,7 +5470,7 @@ export default function ExploreScreen() {
                               <h3 className="font-headline font-black text-primary text-sm uppercase tracking-wider">{t.communityGuidelines}</h3>
                             </div>
                             <div className="max-h-[40vh] overflow-y-auto pr-1 text-[10px] text-on-surface-variant space-y-2 leading-relaxed font-sans bg-surface-container p-3 rounded-xl">
-                              <p className="font-bold text-[#6F4E37]">Code of Conduct</p>
+                              <p className="font-bold text-brand">Code of Conduct</p>
                               <p>• Be Authentic: Write real reviews of the espresso and pour-over flavor notes.</p>
                               <p>• Be Respectful: Roast styles and coffee methods are highly subjective. Keep discussions gentle and welcoming.</p>
                               <p>• No Spam: Commercial posts about roasteries or hardware tools must only be shared if genuinely asked.</p>
