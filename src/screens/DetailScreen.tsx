@@ -256,7 +256,7 @@ export default function DetailScreen() {
               
               {/* Open Now Pill & rating/distance Under the Coffee Spot Name */}
               <div className="flex items-center gap-2 justify-center flex-wrap">
-                <span className={`${isOpen ? 'bg-emerald-50 text-emerald-700 border border-emerald-500/10' : 'bg-rose-50 text-rose-700 border border-rose-500/10'} px-2 py-0.5 rounded-full font-bold text-[9px] tracking-wide uppercase shadow-sm`}>
+                <span className={`${isOpen ? 'bg-emerald-50 text-emerald-700 border border-emerald-500/10' : 'bg-rose-50 text-rose-700 border border-rose-500/10'} px-2 py-0.5 rounded-full font-bold text-[10px] tracking-wide uppercase shadow-sm`}>
                   {isOpen ? 'Open Now' : 'Closed'}
                 </span>
                 <span className="w-1 h-1 bg-outline-variant/50 rounded-full" />
@@ -305,7 +305,7 @@ export default function DetailScreen() {
                 <Wifi size={14} />
               </div>
               <div className="min-w-0">
-                <p className="text-[9px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">WiFi</p>
+                <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">WiFi</p>
                 <p className={`text-xs font-bold truncate ${
                   shop.wifi && shop.wifi.toLowerCase() !== 'none' && shop.wifi.toLowerCase() !== 'unavailable'
                     ? 'text-emerald-600' 
@@ -323,7 +323,7 @@ export default function DetailScreen() {
                 <MapPin size={14} />
               </div>
               <div className="min-w-0">
-                <p className="text-[9px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">Location</p>
+                <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider font-mono">Location</p>
                 <p className="text-xs font-bold text-primary truncate" title={shop.address}>
                   {shop.address ? shop.address.split(',')[0] : 'Central'}
                 </p>
@@ -405,7 +405,7 @@ export default function DetailScreen() {
                               }
                               setIsEditingInline(false);
                             }}
-                            className="bg-outline-variant/10 text-on-surface-variant text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:bg-outline-variant/25 transition-all cursor-pointer"
+                            className="bg-outline-variant/10 text-on-surface-variant text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:bg-outline-variant/25 transition-all cursor-pointer"
                           >
                             Cancel
                           </button>
@@ -429,7 +429,7 @@ export default function DetailScreen() {
                               setNotification(userReviewForThisShop ? 'Review saved!' : 'Review posted!');
                               setIsEditingInline(false);
                             }}
-                            className="bg-[#a55e2b] text-white text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:brightness-110 shadow-sm transition-all cursor-pointer"
+                            className="bg-[#a55e2b] text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:brightness-110 shadow-sm transition-all cursor-pointer"
                           >
                             Save
                           </button>
@@ -448,18 +448,18 @@ export default function DetailScreen() {
                               }
                               setIsEditingInline(true);
                             }}
-                            className="bg-primary/5 text-primary text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:bg-primary/15 transition-all cursor-pointer flex items-center gap-1"
+                            className="bg-primary/5 text-primary text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-mono hover:bg-primary/15 transition-all cursor-pointer flex items-center gap-1"
                           >
                             <PenLine size={9} />
                             {userReviewForThisShop ? 'Edit' : 'Write'}
                           </button>
                           {userReviewForThisShop && (
                             <>
-                              <span className="text-outline-variant/30 text-[9px]">|</span>
+                              <span className="text-outline-variant/30 text-[10px]">|</span>
                               <button 
                                 type="button"
                                 onClick={handleDeleteReview}
-                                className="text-error/80 hover:text-error text-[9px] font-extrabold uppercase tracking-wider font-mono hover:underline cursor-pointer"
+                                className="text-error/80 hover:text-error text-[10px] font-extrabold uppercase tracking-wider font-mono hover:underline cursor-pointer"
                               >
                                 Delete
                               </button>
@@ -555,11 +555,11 @@ export default function DetailScreen() {
                               );
                             })}
                           </div>
-                          <span className="text-[9px] font-extrabold text-brand bg-brand/10 px-1.5 py-0.5 rounded font-mono tracking-wider uppercase ml-1.5">
+                          <span className="text-[10px] font-extrabold text-brand bg-brand/10 px-1.5 py-0.5 rounded font-mono tracking-wider uppercase ml-1.5">
                             {getRatingLabel(userReviewForThisShop.rating)} ({userReviewForThisShop.rating.toFixed(1)})
                           </span>
                         </div>
-                        <span className="text-[9px] text-on-surface-variant font-medium">{userReviewForThisShop.time}</span>
+                        <span className="text-[10px] text-on-surface-variant font-medium">{userReviewForThisShop.time}</span>
                       </div>
                       <p className="text-[11px] text-on-surface-variant leading-relaxed italic">
                         "{userReviewForThisShop.comment}"
@@ -568,7 +568,7 @@ export default function DetailScreen() {
                   ) : (
                     <div className="text-center py-4 px-2 bg-surface/30 rounded-xl border border-dashed border-outline-variant/20">
                       <p className="text-[10px] font-bold text-on-surface-variant/75 font-sans">You haven't reviewed this coffee spot yet.</p>
-                      <p className="text-[9px] text-on-surface-variant/50 mt-0.5 mb-2 font-sans">Share your drip notes, wifi speed, and cozy vibes with the circle.</p>
+                      <p className="text-[10px] text-on-surface-variant/50 mt-0.5 mb-2 font-sans">Share your drip notes, wifi speed, and cozy vibes with the circle.</p>
                       <button
                         type="button"
                         onClick={() => {
@@ -576,7 +576,7 @@ export default function DetailScreen() {
                           setInlineComment('');
                           setIsEditingInline(true);
                         }}
-                        className="inline-flex items-center gap-1 px-3 py-1 bg-[#a55e2b]/10 text-[#a55e2b] rounded-lg text-[9px] font-extrabold uppercase tracking-wider font-mono hover:bg-[#a55e2b]/20 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer"
+                        className="inline-flex items-center gap-1 px-3 py-1 bg-[#a55e2b]/10 text-[#a55e2b] rounded-lg text-[10px] font-extrabold uppercase tracking-wider font-mono hover:bg-[#a55e2b]/20 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer"
                       >
                         <PenLine size={9} />
                         Write / Edit Review
@@ -633,7 +633,7 @@ export default function DetailScreen() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <h4 className="text-xs font-bold text-on-surface">{rev.name}</h4>
-                        <p className="text-[9px] text-on-surface-variant font-medium">{rev.date}</p>
+                        <p className="text-[10px] text-on-surface-variant font-medium">{rev.date}</p>
                       </div>
                       <div className="flex items-center gap-0.5 mb-1">
                         {[0, 1, 2, 3, 4].map((j) => {
