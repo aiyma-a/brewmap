@@ -2,11 +2,14 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Users, Coffee, X, Settings, Trash2, Compass, PenLine, Check, CheckSquare, Share2, Mail, Send, Moon, Sun, Globe, Lock, ShieldAlert, Eye, EyeOff, MapPin, Wifi, LogOut, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { Map } from '@vis.gl/react-google-maps';
 import { FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { SEARCHABLE_USERS, CUSTOM_VECTOR_AVATARS } from '../../lib/sampleUsers';
 import { statusLabel } from '../../lib/shops';
 import { Language } from '../../lib/i18n';
 
 export interface ProfileTabProps {
+  isSignedIn: boolean;
+  onSignOut: () => void;
   activeSettingModal: any;
   activeTab: any;
   bgLocationTracking: any;
@@ -84,6 +87,8 @@ export interface ProfileTabProps {
 
 export function ProfileTab(props: ProfileTabProps) {
   const {
+    isSignedIn,
+    onSignOut,
     activeSettingModal,
     activeTab,
     bgLocationTracking,
@@ -322,10 +327,28 @@ export function ProfileTab(props: ProfileTabProps) {
                       <div className="mb-3">
                         {renderUserAvatar(userProfile.avatar, "w-16 h-16 border-3 border-primary/20 shadow-sm", 28)}
                       </div>
-                      <h3 className="text-lg font-headline font-black text-primary">{userProfile.name}</h3>
-                      <p className="text-[11px] text-on-surface-variant font-mono">@{userProfile.username}</p>
-                      <p className="text-[11px] text-secondary mt-1.5 font-medium italic max-w-xs leading-relaxed">"{userProfile.bio}"</p>
+                      <h3 className="text-lg font-headline font-black text-primary">{isSignedIn ? userProfile.name : 'Guest'}</h3>
+                      {isSignedIn ? (
+                        <>
+                          <p className="text-[11px] text-on-surface-variant font-mono">@{userProfile.username}</p>
+                          {userProfile.bio && <p className="text-[11px] text-secondary mt-1.5 font-medium italic max-w-xs leading-relaxed">"{userProfile.bio}"</p>}
+                        </>
+                      ) : (
+                        <p className="text-[11px] text-on-surface-variant mt-1.5 max-w-xs leading-relaxed">
+                          You are browsing as a guest. Create an account to save spots, write reviews and find friends.
+                        </p>
+                      )}
  
+                      {!isSignedIn ? (
+                      <div className="mt-3.5 pt-3.5 border-t border-outline-variant/10 w-full">
+                        <Link
+                          to="/auth"
+                          className="inline-flex items-center justify-center min-h-[44px] px-5 rounded-xl bg-primary text-on-primary text-xs font-bold active:scale-95 transition-all"
+                        >
+                          Sign in or create account
+                        </Link>
+                      </div>
+                      ) : (
                       <div className="mt-3.5 pt-3.5 border-t border-outline-variant/10 flex justify-center gap-1.5 w-full flex-wrap">
                         <button
                           onClick={() => {
@@ -350,20 +373,14 @@ export function ProfileTab(props: ProfileTabProps) {
                           Share
                         </button>
                         <button
-                          onClick={() => {
-                            localStorage.removeItem('brewmap_authorised');
-                            window.dispatchEvent(new CustomEvent('auth_state_changed'));
-                            setAddNotification("Signed out successfully!");
-                            setTimeout(() => {
-                              window.location.reload();
-                            }, 400);
-                          }}
+                          onClick={onSignOut}
                           className="py-1.5 px-2.5 bg-red-500/10 hover:bg-red-500/25 text-[#FF4B4B] border border-red-500/15 rounded-lg text-[11.5px] font-bold transition-all flex items-center gap-1 active:scale-95 cursor-pointer"
                         >
                           <LogOut size={10} />
                           Sign Out
                         </button>
                       </div>
+                      )}
                     </div>
                   )}
 
