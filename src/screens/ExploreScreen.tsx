@@ -5,6 +5,8 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { APIProvider, Map, AdvancedMarker, Pin, useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { createPortal } from 'react-dom';
 import { useEffect, useState, useCallback, FormEvent, useMemo, useRef } from 'react';
+import { getDistanceInKm } from '../lib/geo';
+import { statusLabel, filterShops } from '../lib/shops';
 import { translations, getLanguage, setLanguage, getThemeMode, setThemeMode, Language } from '../lib/i18n';
 
 const getRatingLabel = (val: number): string => {
@@ -15,22 +17,6 @@ const getRatingLabel = (val: number): string => {
   return "Ristretto";
 };
 
-// Open/Closed text; Google places without opening hours say so instead of "Closed"
-const statusLabel = (isOpen: boolean, status: string | undefined, openText: string) =>
-  isOpen ? openText : status === 'Hours unknown' ? 'Hours unknown' : 'Closed';
-
-const getDistanceInKm = (loc1: { lat: number; lng: number }, loc2: { lat: number; lng: number }) => {
-  const p = 0.017453292519943295; // Math.PI / 180
-  const c = Math.cos;
-  const lat1 = loc1.lat;
-  const lon1 = loc1.lng;
-  const lat2 = loc2.lat;
-  const lon2 = loc2.lng;
-  const a = 0.5 - c((lat2 - lat1) * p)/2 + 
-          c(lat1 * p) * c(lat2 * p) * 
-          (1 - c((lon2 - lon1) * p))/2;
-  return 12742 * Math.asin(Math.sqrt(a));
-};
 
 const renderInteractiveStars = (
   rating: number,
@@ -1657,108 +1643,20 @@ export default function ExploreScreen() {
 
   // Local filtering based on search query and filters
   const filteredShops = useMemo(() => {
-    const currentHour = new Date().getHours();
-    const filterRadius = searchParams.get('radius') ? parseInt(searchParams.get('radius') || '15') : null;
-
-    return allShops.map(shop => {
-      // Calculate open status based on hours if available, otherwise fallback to static status
-      const isOpen = (shop.openingHour !== undefined && shop.closingHour !== undefined) 
-        ? (currentHour >= shop.openingHour && currentHour < shop.closingHour)
-        : shop.status === 'Open Now';
-      return { ...shop, isOpen };
-    }).filter(shop => {
-      const matchSearch = shop.fromGoogle || shop.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (shop.address && shop.address.toLowerCase().includes(searchQuery.toLowerCase()));
-      
-      const matchCity = filterCities.length === 0 || filterCities.includes('All Cities') || 
-        filterCities.some(c => shop.address && shop.address.toLowerCase().includes(c.toLowerCase()));
-      
-      const matchOpen = !filterOpenNow || shop.isOpen;
-      
-      // Wifi availability filter
-      const matchWifi = !filterWifi || (shop.wifi && shop.wifi.toLowerCase() !== 'none' && shop.wifi.toLowerCase() !== 'unavailable');
-      
-      // Outlets availability filter
-      const matchOutlets = !filterOutlets || shop.outlets !== false;
-      
-      // Calculate distance for 2 km radius when nearby filter is active or custom radius from filter screen
-      let matchNearby = true;
-      if (filterNearby) {
-        const userLoc = currentUserLocation || { lat: 42.8755, lng: 74.5905 };
-        const lat2 = shop.location.lat;
-        const lon2 = shop.location.lng;
-        const p = 0.017453292519943295; // Math.PI / 180
-        const c = Math.cos;
-        const lat1 = userLoc.lat;
-        const lon1 = userLoc.lng;
-        const a = 0.5 - c((lat2 - lat1) * p)/2 + 
-                c(lat1 * p) * c(lat2 * p) * 
-                (1 - c((lon2 - lon1) * p))/2;
-        const dist = 12742 * Math.asin(Math.sqrt(a));
-        matchNearby = dist <= 2.0;
-      } else {
-        const radiusLimit = filterRadius !== null ? filterRadius : null;
-        if (radiusLimit !== null) {
-          // Determine reference centers to calculate distance from
-          const referenceCenters: { lat: number, lng: number }[] = [];
-          
-          if (currentUserLocation) {
-            referenceCenters.push(currentUserLocation);
-          }
-          
-          if (filterCities.length > 0) {
-            filterCities.forEach(cityName => {
-              const foundCity = CITIES.find(c => c.name.toLowerCase() === cityName.toLowerCase());
-              if (foundCity) {
-                referenceCenters.push(foundCity.location);
-              }
-            });
-          }
-          
-          // If we still don't have any specific reference center, fallback to default Bishkek
-          if (referenceCenters.length === 0) {
-            referenceCenters.push({ lat: 42.8746, lng: 74.5898 }); // Bishkek center from CITIES
-          }
-          
-          // Find minimum distance to any of the reference centers
-          const lat2 = shop.location.lat;
-          const lon2 = shop.location.lng;
-          const p = 0.017453292519943295; // Math.PI / 180
-          const c = Math.cos;
-          
-          const minDistanceInKm = referenceCenters.reduce((minDist, center) => {
-            const lat1 = center.lat;
-            const lon1 = center.lng;
-            const a = 0.5 - c((lat2 - lat1) * p)/2 + 
-                    c(lat1 * p) * c(lat2 * p) * 
-                    (1 - c((lon2 - lon1) * p))/2;
-            const dist = 12742 * Math.asin(Math.sqrt(a));
-            return Math.min(minDist, dist);
-          }, Infinity);
-          
-          matchNearby = minDistanceInKm <= radiusLimit;
-        }
-      }
-      
-      // Pointed map location distance filtering
-      let matchPointed = true;
-      if (pointedLocation) {
-        const lat2 = shop.location.lat;
-        const lon2 = shop.location.lng;
-        const p = 0.017453292519943295; // Math.PI / 180
-        const c = Math.cos;
-        
-        const lat1 = pointedLocation.lat;
-        const lon1 = pointedLocation.lng;
-        const a = 0.5 - c((lat2 - lat1) * p)/2 + 
-                c(lat1 * p) * c(lat2 * p) * 
-                (1 - c((lon2 - lon1) * p))/2;
-        const dist = 12742 * Math.asin(Math.sqrt(a));
-        
-        matchPointed = dist <= pointedRadius;
-      }
-      
-      return matchSearch && matchCity && matchOpen && matchWifi && matchOutlets && matchNearby && matchPointed;
+    const radiusParam = searchParams.get('radius');
+    return filterShops(allShops, {
+      searchQuery,
+      cities: filterCities,
+      openNow: filterOpenNow,
+      wifi: filterWifi,
+      outlets: filterOutlets,
+      nearby: filterNearby,
+      radiusKm: radiusParam ? parseInt(radiusParam) : null,
+      userLocation: currentUserLocation,
+      pointedLocation,
+      pointedRadiusKm: pointedRadius,
+      cityCenters: CITIES,
+      currentHour: new Date().getHours(),
     });
   }, [allShops, searchQuery, filterCities, filterOpenNow, filterNearby, filterWifi, filterOutlets, currentUserLocation, searchParams, pointedLocation, pointedRadius]);
 
