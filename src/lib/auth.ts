@@ -133,3 +133,10 @@ export function authErrorMessage(e: any): string {
   const dict = ERRORS[getLanguage()] as Record<string, string>;
   return dict[e?.code] || dict.default;
 }
+
+/** Sends the confirmation email again to the signed-in user. */
+export async function resendVerification() {
+  const { auth, authMod } = await getFirebase();
+  if (!auth.currentUser) throw Object.assign(new Error('no user'), { code: 'auth/user-not-found' });
+  await authMod.sendEmailVerification(auth.currentUser);
+}

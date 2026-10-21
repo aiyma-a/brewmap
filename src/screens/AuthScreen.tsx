@@ -2,17 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Mail, Lock, User, Coffee, Check, ChevronRight, HelpCircle, Sparkles } from 'lucide-react';
-import { authErrorMessage, sendPasswordReset, signInWithEmail, signInWithGoogle, signUpWithEmail, useAuthUser } from '../lib/auth';
+import { authErrorMessage, sendPasswordReset, signInWithEmail, signInWithGoogle, useAuthUser } from '../lib/auth';
 import { firebaseEnabled } from '../lib/firebase';
-
-const AVATAR_COLORS = [
-  { name: 'Espresso', bg: 'bg-[#4B3621]', text: 'text-white' },
-  { name: 'Latte', bg: 'bg-[#C2B280]', text: 'text-[#4B3621]' },
-  { name: 'Mocha', bg: 'bg-brand', text: 'text-white' },
-  { name: 'Caramel', bg: 'bg-[#C68E17]', text: 'text-white' },
-  { name: 'Cream', bg: 'bg-[#F5F5DC]', text: 'text-brand' },
-  { name: 'Black', bg: 'bg-[#1A1A1A]', text: 'text-white' },
-];
+import { AVATAR_COLORS, SignupWizard } from './auth/SignupWizard';
 
 export default function AuthScreen() {
   const navigate = useNavigate();
@@ -30,8 +22,8 @@ export default function AuthScreen() {
 
   // Already signed in: go to the map
   useEffect(() => {
-    if (user) navigate('/');
-  }, [user, navigate]);
+    if (user && mode !== 'signup') navigate('/');
+  }, [user, mode, navigate]);
 
   const showNotification = (message: string, type: 'success' | 'info' | 'error' = 'success') => {
     setNotification({ message, type });
@@ -62,10 +54,6 @@ export default function AuthScreen() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLoading) return;
-    if (mode === 'signup' && password.length < 8) {
-      showNotification(authErrorMessage({ code: 'auth/weak-password' }), 'error');
-      return;
-    }
     setIsLoading(true);
     try {
       if (mode === 'forgot') {
@@ -73,10 +61,6 @@ export default function AuthScreen() {
         // Same message whether or not the email has an account (does not reveal who is registered)
         showNotification('If an account exists for that email, a reset link is on its way.', 'success');
         setTimeout(() => { setMode('login'); setPassword(''); }, 2500);
-      } else if (mode === 'signup') {
-        const created = await signUpWithEmail(email.trim(), password, fullName.trim());
-        saveLocalProfile(created.displayName, username.replace(/\s+/g, '').toLowerCase() || undefined);
-        finish('Account created! We sent a confirmation link to your email.');
       } else {
         const signedIn = await signInWithEmail(email.trim(), password);
         saveLocalProfile(signedIn.displayName);
@@ -190,6 +174,19 @@ export default function AuthScreen() {
             </div>
           )}
 
+          {mode === 'signup' ? (
+            <SignupWizard
+              onNotify={showNotification}
+              onProfileReady={(name, uname, avatarName) => {
+                localStorage.setItem('brewmap_user_profile', JSON.stringify({
+                  ...(JSON.parse(localStorage.getItem('brewmap_user_profile') || '{}') || {}),
+                  name, username: uname, bio: '', avatar: `vector:${avatarName}`,
+                }));
+              }}
+              onOpenMap={() => navigate('/')}
+            />
+          ) : (
+          <>
           <div className="mb-8 text-center">
             <h2 className="font-headline text-2xl text-on-surface font-black uppercase text-primary tracking-tight">
               {mode === 'login' && 'Welcome Back'}
@@ -204,65 +201,6 @@ export default function AuthScreen() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {mode === 'signup' && (
-              <div className="space-y-4 mb-6">
-                <div>
-                  <label className="block text-[10px] font-bold text-brand uppercase tracking-wider text-center font-mono mb-2">
-                    Choose Your Coffee Mug avatar
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {AVATAR_COLORS.map((avatar, idx) => (
-                      <button
-                        key={avatar.name}
-                        type="button"
-                        onClick={() => setSelectedAvatar(idx)}
-                        className={`relative flex flex-col items-center gap-1 p-2 rounded-xl border transition-all ${
-                          selectedAvatar === idx 
-                            ? 'border-brand bg-brand/5 shadow-sm' 
-                            : 'border-brand/10 bg-[#FAF8F5] hover:border-brand/30'
-                        }`}
-                      >
-                        <div className={`w-9 h-9 rounded-full ${avatar.bg} ${avatar.text} flex items-center justify-center shadow-sm transition-transform ${selectedAvatar === idx ? 'scale-105' : ''}`}>
-                          <Coffee size={18} fill="currentColor" />
-                        </div>
-                        <span className="text-[10px] font-bold text-brand/85">{avatar.name}</span>
-                        {selectedAvatar === idx && (
-                          <div className="absolute top-1 right-1 bg-brand text-white rounded-full p-0.5 shadow-md">
-                            <Check size={6} strokeWidth={4} />
-                          </div>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Name fields */}
-                <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-brand/60" size={16} />
-                  <input 
-                    required
-                    type="text" 
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Full name"
-                    className="w-full pl-11 pr-4 py-3.5 bg-[#FAF8F5] border border-brand/10 rounded-2xl text-xs focus:ring-1 focus:ring-brand focus:border-brand transition-all outline-none font-medium"
-                  />
-                </div>
-
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-brand/60 font-mono">@</span>
-                  <input 
-                    required
-                    type="text" 
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value.replace(/\s+/g, ''))}
-                    placeholder="username"
-                    className="w-full pl-8 pr-4 py-3.5 bg-[#FAF8F5] border border-brand/10 rounded-2xl text-xs focus:ring-1 focus:ring-brand focus:border-brand transition-all outline-none font-mono"
-                  />
-                </div>
-              </div>
-            )}
-
             {/* Email Address */}
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-brand/60" size={16} />
@@ -379,6 +317,9 @@ export default function AuthScreen() {
               </p>
             )}
           </div>
+
+          </>
+          )}
 
           <p className="mt-8 text-center text-[10px] text-brand/50">
             By continuing, you agree to Brewmap's{' '}
