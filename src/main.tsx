@@ -3,8 +3,10 @@ import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { getLanguage } from './lib/i18n';
+import { initMonitoring } from './lib/monitoring';
 
 document.documentElement.lang = getLanguage();
+initMonitoring();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

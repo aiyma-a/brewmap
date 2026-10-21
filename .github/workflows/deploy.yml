@@ -30,6 +30,7 @@ jobs:
       - run: npm run build
         env:
           GOOGLE_MAPS_PLATFORM_KEY: ${{ secrets.GOOGLE_MAPS_PLATFORM_KEY }}
+          VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
