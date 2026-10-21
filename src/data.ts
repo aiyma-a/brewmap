@@ -6,8 +6,6 @@ export interface CoffeeShop {
   reviewCount: number;
   distance: string;
   address: string;
-  capacityNow: number;
-  capacityMax: number;
   wifi: string;
   outlets?: boolean;
   about: string;
@@ -26,8 +24,6 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
     reviewCount: 120,
     distance: '0.4 km',
     address: 'Bokonbaev St 103, Bishkek',
-    capacityNow: 45,
-    capacityMax: 60,
     wifi: 'Free High-Speed',
     outlets: true,
     about: 'A boutique sanctuary for true coffee enthusiasts. BCR specializes in small-batch roasts and manual pour-overs, served in a space designed for focus and tranquility. Whether you\'re here to work or unwind, our Forest Green atmosphere and Espresso-scented air provide the perfect backdrop.',
@@ -44,8 +40,6 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
     reviewCount: 85,
     distance: '0.8 km',
     address: 'Manas Ave 57, Bishkek',
-    capacityNow: 20,
-    capacityMax: 30,
     wifi: 'Average',
     outlets: false,
     about: 'Specialists in intricate latte art designs and creamy textures.',
@@ -62,8 +56,6 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
     reviewCount: 210,
     distance: '1.2 km',
     address: 'Chuy Ave 115, Bishkek',
-    capacityNow: 55,
-    capacityMax: 55,
     wifi: 'Premium Paid',
     outlets: true,
     about: 'For the hardcore roaster. We bake our own beans daily in-house.',
@@ -80,8 +72,6 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
     reviewCount: 160,
     distance: '0.5 km',
     address: 'Erkindik Blvd 9, Bishkek',
-    capacityNow: 35,
-    capacityMax: 50,
     wifi: 'Free High-Speed',
     outlets: true,
     about: 'Elegant, modern, and beautifully situated along the historic Erkindik boulevard. Excellent breakfasts and award-winning coffee.',
@@ -98,8 +88,6 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
     reviewCount: 340,
     distance: '1.1 km',
     address: 'Chuy Ave 140, Bishkek',
-    capacityNow: 42,
-    capacityMax: 60,
     wifi: 'Free High-Speed',
     outlets: true,
     about: 'Lively atmosphere, artisan bakery, and sweet bagels paired with great filter coffee.',
@@ -116,8 +104,6 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
     reviewCount: 95,
     distance: '0.6 km',
     address: 'Logvinenko St 12, Bishkek',
-    capacityNow: 15,
-    capacityMax: 25,
     wifi: 'Excellent',
     outlets: true,
     about: 'A tiny hidden gem known for absolute brewing precision, specialty Chemex, and friendly local service.',
@@ -134,8 +120,6 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
     reviewCount: 180,
     distance: '0.5 km',
     address: 'Moskovskaya St 103, Bishkek',
-    capacityNow: 22,
-    capacityMax: 40,
     wifi: 'Free',
     outlets: true,
     about: 'Comfortable cafe with a beautiful outdoor terrace and wonderful warm vibes.',
@@ -152,8 +136,6 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
     reviewCount: 140,
     distance: '1.3 km',
     address: 'Shopokov St 101, Bishkek',
-    capacityNow: 18,
-    capacityMax: 35,
     wifi: 'Unavailable',
     outlets: false,
     about: 'Cosy pastel design with a sweet tooth menu focus, digital detox atmosphere (No WiFi), and amazing craft lattes.',
@@ -170,8 +152,6 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
     reviewCount: 42,
     distance: '1.5 km',
     address: 'Lenin St 120, Tokmok',
-    capacityNow: 12,
-    capacityMax: 20,
     wifi: 'Free High-Speed',
     outlets: true,
     about: 'Expressive espresso profiles and freshly roasted micro-batches in the heart of Tokmok.',
@@ -188,8 +168,6 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
     reviewCount: 31,
     distance: '2.3 km',
     address: 'Chuy St 45, Kemin',
-    capacityNow: 8,
-    capacityMax: 15,
     wifi: 'Free',
     outlets: true,
     about: 'A warmth-filled mountain sanctuary for explorers arriving in Kemin. Superb filter brews and scenic vistas.',
@@ -207,20 +185,8 @@ export interface FriendMarker {
   location: { lat: number; lng: number };
 }
 
-export const FRIENDS: FriendMarker[] = [
-  {
-    id: 'f1',
-    name: 'Aigerim',
-    image: 'vector:Cream',
-    location: { lat: 42.8750, lng: 74.6000 }
-  },
-  {
-    id: 'f2',
-    name: 'Daniar',
-    image: 'vector:Caramel',
-    location: { lat: 42.8680, lng: 74.5950 }
-  }
-];
+// Friends need real accounts; none until then.
+export const FRIENDS: FriendMarker[] = [];
 
 export interface City {
   name: string;
