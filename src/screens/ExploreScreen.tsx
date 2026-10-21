@@ -656,7 +656,7 @@ function MapContent({
           rating: p.rating,
           reviewCount: p.userRatingCount,
           address: p.formattedAddress,
-          image: p.photos?.[0]?.getURI({ maxWidth: 400 }) || 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=400&auto=format&fit=crop',
+          image: p.photos?.[0]?.getURI({ maxWidth: 400 }) || `${import.meta.env.BASE_URL}images/5559035ebc.jpg`,
           // Real opening hours from Google; undefined means Google has none for this place
           status: openStates[i] === undefined ? 'Hours unknown' : openStates[i] ? 'Open Now' : 'Closed',
           fromGoogle: true

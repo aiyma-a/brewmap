@@ -21,7 +21,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '1',
     name: 'Bishkek Coffee Roasters',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAc5NyboL7pNKph78Z5inicR0UsLmZ8-Clfla3mEXgEM-tqeDI2HpZo8NBDDOEEmEwdbgC4DOogg-Vgv78D6R_ekUlQWbc_3paHn2DDjPcqZGomptvpG6k50yHePfPl15Aw5BGaDOGczBXVdOeApc5_Fd46Ycw3hYvysLKsaSRtF2VgNa8pdoMWAW3RwewdBHHsrQaEn9l93y9pvDC6tqMp-ZchFCq0Roo1Uicct8K6-Pdv6HOSYP_1b1hloprFMdbFuKngo5axf-37',
+    image: `${import.meta.env.BASE_URL}images/8279d3e8a6.jpg`,
     rating: 4.8,
     reviewCount: 120,
     distance: '0.4 km',
@@ -39,7 +39,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '2',
     name: 'Sierra Coffee',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCRre4a8SbRjVCXwgOqtc2GQZCvAmpyKFy3EewdhbcfMpSggKUHalEboOXGXod9W4U4-B3SsgGzkOaBhRLTnKi6NVVEjRn3sNc81noP_xoF0V9TCxs9TCpXiyfIROIGOUP3pRvrc9m60XIYIOhz4KIBnVoKd5Q23sCtNNF1AJ6YjH8xk2dT1rr-0mgaZhvMg-FveqOX4s0UMnimDksOuRO0DDV73IdwhPpa_lMrA0fsYFF11EnUXqJiSSR557Tg7G0aqPNr9zqZFDJd',
+    image: `${import.meta.env.BASE_URL}images/3baea2be54.jpg`,
     rating: 4.6,
     reviewCount: 85,
     distance: '0.8 km',
@@ -57,7 +57,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '3',
     name: 'Adriano Coffee',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCRre4a8SbRjVCXwgOqtc2GQZCvAmpyKFy3EewdhbcfMpSggKUHalEboOXGXod9W4U4-B3SsgGzkOaBhRLTnKi6NVVEjRn3sNc81noP_xoF0V9TCxs9TCpXiyfIROIGOUP3pRvrc9m60XIYIOhz4KIBnVoKd5Q23sCtNNF1AJ6YjH8xk2dT1rr-0mgaZhvMg-FveqOX4s0UMnimDksOuRO0DDV73IdwhPpa_lMrA0fsYFF11EnUXqJiSSR557Tg7G0aqPNr9zqZFDJd',
+    image: `${import.meta.env.BASE_URL}images/3baea2be54.jpg`,
     rating: 4.9,
     reviewCount: 210,
     distance: '1.2 km',
@@ -75,7 +75,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '4',
     name: 'Bellagio Coffee',
-    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=400&auto=format&fit=crop',
+    image: `${import.meta.env.BASE_URL}images/44a9a055e1.jpg`,
     rating: 4.7,
     reviewCount: 160,
     distance: '0.5 km',
@@ -93,7 +93,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '5',
     name: 'Bublik Coffee',
-    image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=400&auto=format&fit=crop',
+    image: `${import.meta.env.BASE_URL}images/0a0c589f82.jpg`,
     rating: 4.5,
     reviewCount: 340,
     distance: '1.1 km',
@@ -111,7 +111,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '6',
     name: 'Coffee Craft',
-    image: 'https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=400&auto=format&fit=crop',
+    image: `${import.meta.env.BASE_URL}images/57df557051.jpg`,
     rating: 4.8,
     reviewCount: 95,
     distance: '0.6 km',
@@ -129,7 +129,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '7',
     name: 'Navigator Coffee',
-    image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?q=80&w=400&auto=format&fit=crop',
+    image: `${import.meta.env.BASE_URL}images/9308a86d88.jpg`,
     rating: 4.7,
     reviewCount: 180,
     distance: '0.5 km',
@@ -147,7 +147,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '8',
     name: 'Vanilla Sky Coffee',
-    image: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=400&auto=format&fit=crop',
+    image: `${import.meta.env.BASE_URL}images/7f569b76c9.jpg`,
     rating: 4.6,
     reviewCount: 140,
     distance: '1.3 km',
@@ -165,7 +165,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '9',
     name: 'Tokmok Craft Roasters',
-    image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=400&auto=format&fit=crop',
+    image: `${import.meta.env.BASE_URL}images/057ed3a2bb.jpg`,
     rating: 4.7,
     reviewCount: 42,
     distance: '1.5 km',
@@ -183,7 +183,7 @@ export const COFFEE_SHOPS: CoffeeShop[] = [
   {
     id: '10',
     name: 'Kemin Alpine Brews',
-    image: 'https://images.unsplash.com/photo-1453614512568-c4024d13c247?q=80&w=400&auto=format&fit=crop',
+    image: `${import.meta.env.BASE_URL}images/1128ce0ce1.jpg`,
     rating: 4.9,
     reviewCount: 31,
     distance: '2.3 km',
