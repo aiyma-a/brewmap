@@ -351,9 +351,9 @@ export default function AuthScreen() {
 
           <p className="mt-8 text-center text-[9px] text-brand/50">
             By continuing, you agree to Brewmap's{' '}
-            <span className="underline cursor-pointer hover:text-brand">Terms of Service</span>
+            <a href={`${import.meta.env.BASE_URL}terms.html`} target="_blank" rel="noopener" className="underline hover:text-brand">Terms of Service</a>
             {' '}and{' '}
-            <span className="underline cursor-pointer hover:text-brand">Privacy Policy</span>
+            <a href={`${import.meta.env.BASE_URL}privacy.html`} target="_blank" rel="noopener" className="underline hover:text-brand">Privacy Policy</a>
           </p>
         </motion.div>
       </main>

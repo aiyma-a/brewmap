@@ -4386,15 +4386,10 @@ export default function ExploreScreen() {
                               <h3 className="font-headline font-black text-primary text-sm uppercase tracking-wider">{t.privacyPolicy}</h3>
                             </div>
                             <div className="max-h-[40vh] overflow-y-auto pr-1 text-[10px] text-on-surface-variant space-y-2 leading-relaxed font-sans bg-surface-container p-3 rounded-xl">
-                              <p className="font-bold">Last Updated: May 2026</p>
-                              <p>Welcome to BrewSpot! We respect your privacy and protect your personal coffee exploration data.</p>
-                              <p className="font-bold text-primary">1. Information We Collect</p>
-                              <p>We process your profile details, coffee scores, WiFi notes, and coordinates when choosing open coffee shops near Bishkek.</p>
-                              <p className="font-bold text-primary">2. Background Location Tracking</p>
-                              <p>When manually activated, location status can be computed locally to notify you of specialty cafes nearby, even when browsing background windows are minimized.</p>
-                              <p className="font-bold text-primary">3. Sovereignty</p>
-                              <p>All reviews are kept in your sandbox cache. Delete any time you wish inside the settings menu.</p>
+                              <p className="font-bold">Last updated: 21 October 2026</p>
+                              <p>Your profile, saved shops and reviews stay in this browser and are not sent to us. Location is used only to centre the map and show distances. Map and shop data come from Google. We use no ads or tracking.</p>
                             </div>
+                            <a href={`${import.meta.env.BASE_URL}privacy.html`} target="_blank" rel="noopener" className="block text-center text-xs font-bold text-brand underline">Read the full Privacy Policy</a>
                             <button
                               onClick={() => setActiveSettingModal(null)}
                               className="w-full py-2 bg-primary text-on-primary rounded-xl font-bold mt-2 text-xs"
@@ -4411,11 +4406,10 @@ export default function ExploreScreen() {
                               <h3 className="font-headline font-black text-primary text-sm uppercase tracking-wider">{t.termsOfService}</h3>
                             </div>
                             <div className="max-h-[40vh] overflow-y-auto pr-1 text-[10px] text-on-surface-variant space-y-2 leading-relaxed font-sans bg-surface-container p-3 rounded-xl">
-                              <p className="font-bold">Last Updated: May 2026</p>
-                              <p>We supply map guides for coffee shops representation in Kyrgyzstan. Calculations are processed locally and dynamically.</p>
-                              <p className="font-bold text-primary">1. Community Use</p>
-                              <p>You agree not to spam review lines with commercial ads, and provide authentic ratings of specialty pour-over experiences.</p>
+                              <p className="font-bold">Last updated: 21 October 2026</p>
+                              <p>Brewmap is a free guide. Shop details come from Google and may be out of date. Be respectful, no spam. The app is provided as is.</p>
                             </div>
+                            <a href={`${import.meta.env.BASE_URL}terms.html`} target="_blank" rel="noopener" className="block text-center text-xs font-bold text-brand underline">Read the full Terms of Service</a>
                             <button
                               onClick={() => setActiveSettingModal(null)}
                               className="w-full py-2 bg-primary text-on-primary rounded-xl font-bold mt-2 text-xs"
