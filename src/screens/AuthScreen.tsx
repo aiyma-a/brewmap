@@ -111,7 +111,7 @@ export default function AuthScreen() {
       </AnimatePresence>
 
       {/* Header */}
-      <header className="px-6 py-5 flex items-center justify-between relative border-b border-brand/5 bg-white/70 backdrop-blur-md z-10">
+      <header className="px-4 sm:px-6 py-5 grid grid-cols-[1fr_auto_1fr] items-center gap-2 relative border-b border-brand/5 bg-white/70 backdrop-blur-md z-10">
         <button 
           onClick={() => {
             // Let them browse anonymously or go back if already logged in
@@ -119,15 +119,15 @@ export default function AuthScreen() {
             window.dispatchEvent(new CustomEvent('auth_state_changed'));
             navigate('/');
           }}
-          className="text-primary hover:bg-primary/5 px-3 py-1.5 rounded-full transition-colors active:scale-95 text-xs font-bold font-mono text-brand"
+          className="justify-self-start text-primary hover:bg-primary/5 px-2 sm:px-3 py-1.5 rounded-full transition-colors active:scale-95 text-xs font-bold font-mono text-brand"
         >
-          Skip Verification
+          Skip
         </button>
-        <div className="flex items-center gap-1.5 absolute left-1/2 -translate-x-1/2">
-          <h1 className="font-headline text-2xl text-primary tracking-tighter uppercase font-black">Brewmap</h1>
+        <div className="flex items-center gap-1.5">
+          <h1 className="font-headline text-xl sm:text-2xl text-primary tracking-tighter uppercase font-black">Brewmap</h1>
           <Coffee className="text-brand" size={26} fill="currentColor" />
         </div>
-        <div className="w-12 text-xs text-on-surface-variant font-medium text-right font-mono">v1.0.2</div>
+        <div className="hidden sm:block justify-self-end text-xs text-on-surface-variant font-medium font-mono">v1.0.2</div>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center p-6 pb-16">
