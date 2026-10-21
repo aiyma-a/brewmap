@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { ShopPhoto } from '../../components/ShopPhoto';
 import { Search, Users, Bookmark, Coffee, X, UserPlus, PlusCircle, Trash2, Compass, UserCheck, Star, Heart, PenLine, MapPin } from 'lucide-react';
 import { COFFEE_SHOPS as STATIC_SHOPS } from '../../data';
 import { Map } from '@vis.gl/react-google-maps';
@@ -285,8 +286,8 @@ export function SocialTab(props: SocialTabProps) {
                             className="bg-surface-container/60 hover:bg-surface-container-high/90 border border-outline-variant/15 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300 rounded-2xl overflow-hidden flex flex-col"
                           >
                             <div className="p-4 flex gap-4">
-                              <img 
-                                src={shop.image} 
+                              <ShopPhoto 
+                                shop={shop} 
                                 alt={shop.name} 
                                 className="w-16 h-16 rounded-xl object-cover cursor-pointer hover:brightness-90 transition-all flex-shrink-0 shadow-sm border border-outline-variant/10" 
                                 onClick={() => {
@@ -424,8 +425,8 @@ export function SocialTab(props: SocialTabProps) {
                               className="bg-surface-container/60 hover:bg-surface-container-high/90 border border-outline-variant/15 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300 rounded-2xl overflow-hidden flex flex-col"
                             >
                               <div className="p-4 flex gap-4">
-                                <img 
-                                  src={shop.image} 
+                                <ShopPhoto 
+                                  shop={shop} 
                                   alt={shop.name} 
                                   className="w-16 h-16 rounded-xl object-cover cursor-pointer hover:brightness-90 transition-all flex-shrink-0 shadow-sm border border-outline-variant/10" 
                                   onClick={() => {

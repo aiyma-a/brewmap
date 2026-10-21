@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { ShopPhoto } from '../../components/ShopPhoto';
 import { Users, Coffee, X, Settings, Trash2, Compass, PenLine, Check, CheckSquare, Share2, Mail, Send, Moon, Sun, Globe, Lock, ShieldAlert, Eye, EyeOff, MapPin, Wifi, LogOut, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { Map } from '@vis.gl/react-google-maps';
 import { FormEvent } from 'react';
@@ -475,8 +476,8 @@ export function ProfileTab(props: ProfileTabProps) {
                                             }}
                                             title="Click to view shop profile"
                                           >
-                                            <img 
-                                              src={shop.image} 
+                                            <ShopPhoto 
+                                              shop={shop} 
                                               alt={shop.name} 
                                               className="w-12 h-12 rounded-xl object-cover border border-outline-variant/10 shadow-sm group-hover:brightness-95 transition-all" 
                                             />

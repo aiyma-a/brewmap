@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { ShopPhoto } from '../../components/ShopPhoto';
 import { Navigation2, Coffee, X, MessageSquare, Compass, Star, Heart, PenLine, Check, CheckCircle2, Share2, Copy, Wifi, ChevronDown } from 'lucide-react';
 import { getRatingLabel, renderInteractiveStars } from '../../lib/rating';
 import { BusyReport } from '../../components/BusyReport';
@@ -95,8 +96,9 @@ export function ShopDetailSheet(props: ShopDetailSheetProps) {
                 >
                   {/* Top image header block */}
                   <div className="relative w-full h-[140px] shrink-0 overflow-hidden">
-                    <img 
-                      src={selectedShopDetail.image} 
+                    <ShopPhoto 
+                      shop={selectedShopDetail}
+                      showCredit 
                       alt={selectedShopDetail.name} 
                       className="w-full h-full object-cover" 
                     />

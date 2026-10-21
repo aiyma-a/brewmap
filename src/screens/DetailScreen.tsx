@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { ShopPhoto } from '../components/ShopPhoto';
 import { ArrowLeft, Share2, Star, Navigation, Bookmark, Wifi, MapPin, Navigation2, Heart, Users, Trash2, PenLine, Coffee, X, MessageSquare, Send, Mail, Copy, Check } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { COFFEE_SHOPS } from '../data';
@@ -238,7 +239,7 @@ export default function DetailScreen() {
       <main className="w-full max-w-2xl mx-auto flex-1 flex flex-col min-h-0 relative">
         {/* Hero */}
         <section className="relative w-full h-[18vh] min-h-[140px] overflow-hidden shrink-0">
-          <img src={shop.image} alt={shop.name} className="w-full h-full object-cover" />
+          <ShopPhoto shop={shop} alt={shop.name} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/30" />
         </section>
 
@@ -796,8 +797,8 @@ export default function DetailScreen() {
                 {/* Coffee Shop Preview Card */}
                 <div className="bg-surface-container-low border border-outline-variant/20 rounded-2xl p-4 flex items-center gap-4 mb-6 shadow-sm">
                   <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-outline-variant/10 bg-surface-container-high">
-                    <img 
-                      src={shop.image} 
+                    <ShopPhoto 
+                      shop={shop} 
                       alt={shop.name}
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
