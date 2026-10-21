@@ -4,6 +4,7 @@ import FilterScreen from './screens/FilterScreen';
 import DetailScreen from './screens/DetailScreen';
 import BrewlogScreen from './screens/BrewlogScreen';
 import AuthScreen from './screens/AuthScreen';
+import AuthActionScreen from './screens/AuthActionScreen';
 
 export default function App() {
   return (
@@ -17,6 +18,8 @@ export default function App() {
 
         {/* Sign in / create account */}
         <Route path="/auth" element={<AuthScreen />} />
+        {/* Landing page for links in confirmation / password-reset emails */}
+        <Route path="/auth/action" element={<AuthActionScreen />} />
 
         {/* Fallback redirect */}
         <Route path="*" element={<Navigate to="/" replace />} />

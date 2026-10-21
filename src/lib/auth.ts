@@ -94,6 +94,8 @@ const ERRORS = {
     'auth/cancelled-popup-request': 'Sign-in was cancelled.',
     'auth/popup-blocked': 'Your browser blocked the sign-in window. Allow pop-ups and try again.',
     'auth/network-request-failed': 'No connection. Check your internet and try again.',
+    'auth/invalid-action-code': 'This link is no longer valid. It may have been used already or expired. Request a new one.',
+    'auth/expired-action-code': 'This link has expired. Request a new one.',
     'not-configured': 'Accounts are not available right now.',
     default: 'Something went wrong. Please try again.',
   },
@@ -109,6 +111,8 @@ const ERRORS = {
     'auth/cancelled-popup-request': 'Вход отменён.',
     'auth/popup-blocked': 'Браузер заблокировал окно входа. Разрешите всплывающие окна и повторите.',
     'auth/network-request-failed': 'Нет соединения. Проверьте интернет и повторите.',
+    'auth/invalid-action-code': 'Эта ссылка больше не действует: возможно, она уже использована или устарела. Запросите новую.',
+    'auth/expired-action-code': 'Срок действия ссылки истёк. Запросите новую.',
     'not-configured': 'Аккаунты сейчас недоступны.',
     default: 'Что-то пошло не так. Попробуйте ещё раз.',
   },
@@ -124,6 +128,8 @@ const ERRORS = {
     'auth/cancelled-popup-request': 'Кирүү токтотулду.',
     'auth/popup-blocked': 'Браузер кирүү терезесин бөгөттөдү. Калкыма терезелерге уруксат берип, кайра аракет кылыңыз.',
     'auth/network-request-failed': 'Байланыш жок. Интернетти текшерип, кайра аракет кылыңыз.',
+    'auth/invalid-action-code': 'Бул шилтеме мындан ары жараксыз: колдонулуп калган же эскирген болушу мүмкүн. Жаңысын сураңыз.',
+    'auth/expired-action-code': 'Шилтеменин мөөнөтү бүттү. Жаңысын сураңыз.',
     'not-configured': 'Аккаунттар азыр жеткиликсиз.',
     default: 'Бир нерсе туура эмес болду. Кайра аракет кылыңыз.',
   },
@@ -139,4 +145,25 @@ export async function resendVerification() {
   const { auth, authMod } = await getFirebase();
   if (!auth.currentUser) throw Object.assign(new Error('no user'), { code: 'auth/user-not-found' });
   await authMod.sendEmailVerification(auth.currentUser);
+}
+
+/** Email-link actions (confirm email / reset password) handled on our own page. */
+export async function applyEmailAction(mode: string, code: string, newPassword?: string) {
+  const { auth, authMod } = await getFirebase();
+  if (mode === 'verifyEmail' || mode === 'recoverEmail') {
+    await authMod.applyActionCode(auth, code);
+    if (auth.currentUser) await auth.currentUser.reload().catch(() => {});
+    return;
+  }
+  if (mode === 'resetPassword') {
+    await authMod.confirmPasswordReset(auth, code, newPassword as string);
+    return;
+  }
+  throw Object.assign(new Error('unsupported'), { code: 'auth/invalid-action-code' });
+}
+
+/** Returns the email a reset code belongs to (also validates the code). */
+export async function checkResetCode(code: string): Promise<string> {
+  const { auth, authMod } = await getFirebase();
+  return authMod.verifyPasswordResetCode(auth, code);
 }
