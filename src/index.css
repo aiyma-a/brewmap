@@ -5,30 +5,30 @@
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-headline: "Epilogue", sans-serif;
 
-  --color-surface: #fef8f1;
-  --color-surface-dim: #dfd9d2;
-  --color-surface-bright: #fef8f1;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f9f3ec;
-  --color-surface-container: #f3ede6;
-  --color-surface-container-high: #ede7e0;
-  --color-surface-container-highest: #e7e2db;
-  --color-on-surface: #1d1b17;
-  --color-on-surface-variant: #504442;
+  --color-surface: #F5EFE6;
+  --color-surface-dim: #E0D7CA;
+  --color-surface-bright: #FFFBF5;
+  --color-surface-container-lowest: #FFFBF5;
+  --color-surface-container-low: #F9F3EA;
+  --color-surface-container: #F1EADF;
+  --color-surface-container-high: #EBE3D7;
+  --color-surface-container-highest: #E5DCCF;
+  --color-on-surface: #2B211C;
+  --color-on-surface-variant: #5E4F46;
   --color-inverse-surface: #32302c;
   --color-inverse-on-surface: #f6f0e9;
-  --color-outline: #827472;
-  --color-outline-variant: #d3c3c0;
-  --color-surface-tint: #745853;
-  --color-primary: #271310;
+  --color-outline: #8A7A70;
+  --color-outline-variant: #DDD2C4;
+  --color-surface-tint: #8A5A3C;
+  --color-primary: #8A5A3C;
   --color-on-primary: #ffffff;
-  --color-primary-container: #3e2723;
-  --color-on-primary-container: #ae8d87;
+  --color-primary-container: #5C3D2A;
+  --color-on-primary-container: #F1DCCB;
   --color-inverse-primary: #e3beb8;
-  --color-secondary: #306a34;
+  --color-secondary: #4F7A4A;
   --color-on-secondary: #ffffff;
-  --color-secondary-container: #adeda9;
-  --color-on-secondary-container: #336d37;
+  --color-secondary-container: #D3E6CE;
+  --color-on-secondary-container: #2F5A2B;
   --color-tertiary: #24150f;
   --color-on-tertiary: #ffffff;
   --color-tertiary-container: #3a2922;
@@ -49,40 +49,48 @@
   --color-tertiary-fixed-dim: #ddc1b7;
   --color-on-tertiary-fixed: #271812;
   --color-on-tertiary-fixed-variant: #56423b;
-  --color-background: #fef8f1;
-  --color-on-background: #1d1b17;
-  --color-surface-variant: #e7e2db;
+  --color-background: #F5EFE6;
+  --color-on-background: #2B211C;
+  --color-surface-variant: #E5DCCF;
 
   --radius-sm: 0.25rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
+
+  /* brand accents (used as bg-brand, text-brand, border-brand, text-open ...) */
+  --color-brand: #8A5A3C;
+  --color-brand-deep: #6F4630;
+  --color-open: #4F7A4A;
 }
 
 .dark {
-  --color-surface: #161412;
-  --color-surface-dim: #100f0d;
-  --color-surface-bright: #23201e;
-  --color-surface-container-lowest: #0a0909;
-  --color-surface-container-low: #1d1917;
-  --color-surface-container: #24201e;
-  --color-surface-container-high: #2d2926;
-  --color-surface-container-highest: #38332f;
-  --color-on-surface: #f4eae1;
-  --color-on-surface-variant: #d1c1bc;
+  --color-surface: #1E1B19;
+  --color-surface-dim: #171513;
+  --color-surface-bright: #2F2A27;
+  --color-surface-container-lowest: #171513;
+  --color-surface-container-low: #25211F;
+  --color-surface-container: #2A2623;
+  --color-surface-container-high: #322D2A;
+  --color-surface-container-highest: #3A3430;
+  --color-on-surface: #EDE3D8;
+  --color-on-surface-variant: #C9BBAE;
   --color-inverse-surface: #fdf5eb;
   --color-inverse-on-surface: #1c1a16;
-  --color-outline: #9d8c89;
-  --color-outline-variant: #4f4240;
-  --color-primary: #ffdcd6;
-  --color-on-primary: #4c1712;
-  --color-primary-container: #6f342d;
-  --color-on-primary-container: #ffdcd6;
-  --color-background: #13110f;
-  --color-on-background: #ecdcd2;
-  --color-surface-variant: #3a3230;
-  --color-secondary-container: #265529;
-  --color-on-secondary-container: #cbf9c6;
+  --color-outline: #9A8C80;
+  --color-outline-variant: #4A423C;
+  --color-primary: #D9A066;
+  --color-on-primary: #1E1B19;
+  --color-primary-container: #5C3D2A;
+  --color-on-primary-container: #F1DCCB;
+  --color-background: #1E1B19;
+  --color-on-background: #EDE3D8;
+  --color-surface-variant: #3A3430;
+  --color-secondary-container: #2F4A2C;
+  --color-on-secondary-container: #CFE6CB;
+  --color-brand: #BF8050;
+  --color-brand-deep: #A86B3F;
+  --color-open: #78A574;
 }
 
 @layer base {

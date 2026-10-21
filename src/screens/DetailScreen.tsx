@@ -7,9 +7,9 @@ import { useState, useEffect, FormEvent } from 'react';
 const CUSTOM_VECTOR_AVATARS = [
   { id: 'vec_espresso', name: 'Espresso', bg: 'bg-[#4B3621]', text: 'text-white' },
   { id: 'vec_latte', name: 'Latte', bg: 'bg-[#C2B280]', text: 'text-[#4B3621]' },
-  { id: 'vec_mocha', name: 'Mocha', bg: 'bg-[#6F4E37]', text: 'text-white' },
+  { id: 'vec_mocha', name: 'Mocha', bg: 'bg-brand', text: 'text-white' },
   { id: 'vec_caramel', name: 'Caramel', bg: 'bg-[#C68E17]', text: 'text-white' },
-  { id: 'vec_cream', name: 'Cream', bg: 'bg-[#F5F5DC]', text: 'text-[#6F4E37]' },
+  { id: 'vec_cream', name: 'Cream', bg: 'bg-[#F5F5DC]', text: 'text-brand' },
   { id: 'vec_black', name: 'Black', bg: 'bg-[#1A1A1A]', text: 'text-white' }
 ];
 
@@ -216,7 +216,7 @@ export default function DetailScreen() {
             initial={{ opacity: 0, y: -20, x: "-50%" }}
             animate={{ opacity: 1, y: 0, x: "-50%" }}
             exit={{ opacity: 0, y: -20, x: "-50%" }}
-            className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-[#6F4E37] text-white shadow-soft font-semibold px-5 py-3 rounded-full text-xs flex items-center gap-2 border border-[#6F4E37]/10"
+            className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-brand text-white shadow-soft font-semibold px-5 py-3 rounded-full text-xs flex items-center gap-2 border border-brand/10"
           >
             <span>☕ {notification}</span>
           </motion.div>
@@ -388,7 +388,7 @@ export default function DetailScreen() {
                   <div className="flex items-center justify-between pb-2 border-b border-outline-variant/15 mb-3">
                     <div className="flex items-center gap-1.5">
                       <Coffee size={13} className="text-[#a55e2b]" />
-                      <span className="text-[10px] font-extrabold text-[#6F4E37] uppercase tracking-wider font-mono">Your Experience</span>
+                      <span className="text-[10px] font-extrabold text-brand uppercase tracking-wider font-mono">Your Experience</span>
                     </div>
                     <div className="flex items-center gap-2">
                       {isEditingInline ? (
@@ -479,7 +479,7 @@ export default function DetailScreen() {
                           inlineHoverRating,
                           setInlineHoverRating
                         )}
-                        <p className="text-[10px] font-extrabold text-[#6F4E37] uppercase tracking-widest mt-1.5 font-mono">
+                        <p className="text-[10px] font-extrabold text-brand uppercase tracking-widest mt-1.5 font-mono">
                           ☕ {getRatingLabel(inlineRating)} ({inlineRating.toFixed(1)})
                         </p>
                       </div>
@@ -555,7 +555,7 @@ export default function DetailScreen() {
                               );
                             })}
                           </div>
-                          <span className="text-[9px] font-extrabold text-[#6F4E37] bg-[#6F4E37]/10 px-1.5 py-0.5 rounded font-mono tracking-wider uppercase ml-1.5">
+                          <span className="text-[9px] font-extrabold text-brand bg-brand/10 px-1.5 py-0.5 rounded font-mono tracking-wider uppercase ml-1.5">
                             {getRatingLabel(userReviewForThisShop.rating)} ({userReviewForThisShop.rating.toFixed(1)})
                           </span>
                         </div>
@@ -695,7 +695,7 @@ export default function DetailScreen() {
                     <Coffee size={22} />
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold tracking-widest text-[#6F4E37] uppercase">Brew Rating</span>
+                    <span className="text-[10px] font-bold tracking-widest text-brand uppercase">Brew Rating</span>
                     <h3 className="text-lg font-black text-on-surface leading-snug">{shop.name}</h3>
                   </div>
                 </div>
@@ -711,7 +711,7 @@ export default function DetailScreen() {
                       setHoverRating
                     )}
                     
-                    <p className="text-xs font-extrabold text-[#6F4E37] mt-2.5 uppercase tracking-widest font-mono flex items-center justify-center gap-1">
+                    <p className="text-xs font-extrabold text-brand mt-2.5 uppercase tracking-widest font-mono flex items-center justify-center gap-1">
                       <span>☕</span>
                       <span>{getRatingLabel(rating)}</span>
                       <span className="text-[10px] text-on-surface-variant/70">({rating.toFixed(1)})</span>
@@ -778,7 +778,7 @@ export default function DetailScreen() {
                 <div className="mb-6 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="bg-primary/10 w-14 h-14 rounded-full flex items-center justify-center text-primary shrink-0 shadow-sm">
-                      <Coffee size={30} className="fill-current text-[#6F4E37]" />
+                      <Coffee size={30} className="fill-current text-brand" />
                     </div>
                     <div>
                       <h3 className="font-headline font-black text-primary text-base">Share Coffee Shop</h3>
@@ -811,7 +811,7 @@ export default function DetailScreen() {
                       <span className="text-[10px] text-on-surface-variant/80">({shop.reviewCount || 120} reviews)</span>
                     </div>
                     <div className="flex items-center gap-1 mt-1 text-on-surface-variant/80">
-                      <MapPin size={10} className="text-[#6F4E37] shrink-0" />
+                      <MapPin size={10} className="text-brand shrink-0" />
                       <p className="text-[10px] truncate font-sans">{shop.address}</p>
                     </div>
                   </div>
@@ -825,7 +825,7 @@ export default function DetailScreen() {
                     href={`sms:?body=${encodeURIComponent(`Check out this coffee shop on Brewmap! ☕✨\n\n🏠 ${shop.name}\n📍 ${shop.address}\n\nJoin the roaster community and discover more: ${window.location.origin}/shop/${shop.id}`)}`}
                     className="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-colors text-center group active:scale-95"
                   >
-                    <div className="w-10 h-10 rounded-full bg-[#6F4E37]/10 text-[#6F4E37] flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
                       <MessageSquare size={18} />
                     </div>
                     <span className="text-[10px] font-bold text-on-surface-variant">Text Msg</span>
@@ -862,7 +862,7 @@ export default function DetailScreen() {
                     href={`mailto:?subject=${encodeURIComponent(`Specialty Coffee Recommendation: ${shop.name}`)}&body=${encodeURIComponent(`Hey! I wanted to recommend this coffee shop from Brewmap:\n\n🏠 ${shop.name}\n⭐️ Rating: ${shop.rating}\n📍 Address: ${shop.address}\n\nCheck out reviews and details here: ${window.location.origin}/shop/${shop.id}\n\nHappy brewing!`)}`}
                     className="flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-colors text-center group active:scale-95"
                   >
-                    <div className="w-10 h-10 rounded-full bg-[#6F4E37]/10 text-[#6F4E37] flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mb-1.5 group-hover:scale-105 transition-transform">
                       <Mail size={18} />
                     </div>
                     <span className="text-[10px] font-bold text-on-surface-variant">Email</span>
